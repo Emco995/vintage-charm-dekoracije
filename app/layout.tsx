@@ -15,8 +15,8 @@ const jakarta = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Boho & Event Dekoracije | Unikatne dekoracije za vaše proslave",
-  description: "Dekoracije za vjenčanja, djevojačke večeri, rođendane i posebne trenutke u boho i elegantnom stilu.",
+  title: "Vintage Charm Dekoracije | Boho & Event Dekoracije",
+  description: "Unikatne dekoracije za vjenčanja, djevojačke večeri, rođendane i posebne proslave.",
 };
 
 export default function RootLayout({
@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="bs" className={`${cormorant.variable} ${jakarta.variable} scroll-smooth`}>
-      <body className="bg-boho-bg text-boho-dark antialiased">
+      <body className="bg-[#FDFBF5] text-[#2A2421] antialiased">
         {children}
       </body>
     </html>

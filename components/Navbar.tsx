@@ -74,7 +74,7 @@ export default function Navbar() {
           </div>
         </Link>
 
-        {/* Desktop Navigacija: O nama, Galerija, Usluge, Kontakt */}
+        {/* Desktop Navigacija */}
         <nav className="hidden md:flex items-center gap-8 text-sm font-medium text-[#2A2421]/90">
           <Link href="#o-nama" className="hover:text-[#C86D51] transition-colors duration-200">
             O nama
@@ -90,14 +90,14 @@ export default function Navbar() {
           </Link>
         </nav>
 
-        {/* CTA dugme */}
+        {/* CTA dugme sa stvarnim brojem */}
         <div className="hidden sm:flex items-center gap-4">
           <a
-            href="tel:+38760000000"
+            href="tel:+38762317694"
             className="flex items-center gap-2 text-xs font-semibold uppercase tracking-widest px-5 py-2.5 rounded-full border border-[#C86D51] text-[#C86D51] hover:bg-[#C86D51] hover:text-white transition-all duration-300 shadow-sm"
           >
             <Phone className="w-3.5 h-3.5" />
-            Rezerviši termin
+            +387 062 317 694
           </a>
         </div>
 
