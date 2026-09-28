@@ -6,9 +6,51 @@ import { Sparkles, Phone, Send, CheckCircle2 } from "lucide-react";
 
 export default function Contact() {
   const [submitted, setSubmitted] = useState(false);
+  const [formData, setFormData] = useState({
+    name: "",
+    phone: "",
+    date: "",
+    eventType: "",
+    notes: "",
+  });
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
+  ) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    // Mapiranje tipa događaja u čitljiv tekst
+    const eventLabels: Record<string, string> = {
+      vjencanje: "Vjenčanje & Oltar",
+      zaruke: "Zaruke",
+      djevojacka: "Djevojačka Večer",
+      rodjendan: "Rođendan / Jubilej",
+      ostalo: "Ostalo / Foto Kutak",
+    };
+
+    const selectedEvent = eventLabels[formData.eventType] || formData.eventType;
+
+    // Formatirana poruka za WhatsApp
+    const message = 
+`Zdravo Vintage Charm! Želim zatražiti ponudu/termin:
+• Ime i prezime: ${formData.name}
+• Kontakt telefon: ${formData.phone}
+• Datum događaja: ${formData.date}
+• Vrsta proslave: ${selectedEvent}
+• Dodatne želje/lokacija: ${formData.notes || "Nema dodatnih napomena"}`;
+
+    const whatsappUrl = `https://wa.me/38762317694?text=${encodeURIComponent(message)}`;
+
+    // Otvara WhatsApp u novom prozoru/aplikaciji
+    window.open(whatsappUrl, "_blank");
+
     setSubmitted(true);
   };
 
@@ -18,7 +60,7 @@ export default function Contact() {
         
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-12 items-start">
           
-          {/* Lijeva strana: Informacije i stvarni kontakti prijateljice */}
+          {/* Lijeva strana: Informacije i stvarni kontakti */}
           <div className="lg:col-span-5 space-y-6">
             <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E6D5B8]/40 border border-[#C86D51]/30 text-[#C86D51] text-xs font-semibold tracking-wider uppercase">
               <Sparkles className="w-3.5 h-3.5" />
@@ -35,7 +77,6 @@ export default function Contact() {
 
             {/* Brzi kanali komunikacije */}
             <div className="space-y-4 pt-4">
-              {/* WhatsApp direktan chat */}
               <a
                 href="https://wa.me/38762317694"
                 target="_blank"
@@ -55,7 +96,6 @@ export default function Contact() {
                 </div>
               </a>
 
-              {/* Instagram link */}
               <a
                 href="https://www.instagram.com/vintage__charm_/"
                 target="_blank"
@@ -75,7 +115,6 @@ export default function Contact() {
                 </div>
               </a>
 
-              {/* Telefonski poziv */}
               <a
                 href="tel:+38762317694"
                 className="flex items-center gap-4 p-4 rounded-2xl bg-[#F7F3EE] border border-[#E6D5B8]/60 hover:border-[#C86D51] transition-all group"
@@ -110,8 +149,15 @@ export default function Contact() {
                   Hvala vam na upitu!
                 </h3>
                 <p className="text-sm text-[#786F6A] max-w-md mx-auto">
-                  Zaprimili smo vaše podatke. Javit ćemo vam se u najkraćem roku sa detaljima i ponudom.
+                  Vaš upit je preusmjeren na WhatsApp. Javit ćemo vam se u najkraćem mogućem roku!
                 </p>
+                <button
+                  type="button"
+                  onClick={() => setSubmitted(false)}
+                  className="mt-4 px-6 py-2.5 rounded-full bg-[#C86D51] text-white text-xs uppercase tracking-wider font-medium hover:bg-[#b05c42] transition-colors"
+                >
+                  Pošalji novi upit
+                </button>
               </motion.div>
             ) : (
               <form onSubmit={handleSubmit} className="space-y-5">
@@ -122,7 +168,10 @@ export default function Contact() {
                     </label>
                     <input
                       type="text"
+                      name="name"
                       required
+                      value={formData.name}
+                      onChange={handleChange}
                       placeholder="npr. Amina Hadžić"
                       className="w-full px-4 py-3.5 rounded-2xl bg-[#FDFBF5] border border-[#E6D5B8] focus:border-[#C86D51] outline-none text-sm text-[#2A2421]"
                     />
@@ -134,7 +183,10 @@ export default function Contact() {
                     </label>
                     <input
                       type="tel"
+                      name="phone"
                       required
+                      value={formData.phone}
+                      onChange={handleChange}
                       placeholder="+387 6X ..."
                       className="w-full px-4 py-3.5 rounded-2xl bg-[#FDFBF5] border border-[#E6D5B8] focus:border-[#C86D51] outline-none text-sm text-[#2A2421]"
                     />
@@ -148,7 +200,10 @@ export default function Contact() {
                     </label>
                     <input
                       type="date"
+                      name="date"
                       required
+                      value={formData.date}
+                      onChange={handleChange}
                       className="w-full px-4 py-3.5 rounded-2xl bg-[#FDFBF5] border border-[#E6D5B8] focus:border-[#C86D51] outline-none text-sm text-[#2A2421]"
                     />
                   </div>
@@ -158,7 +213,10 @@ export default function Contact() {
                       Vrsta Događaja *
                     </label>
                     <select
+                      name="eventType"
                       required
+                      value={formData.eventType}
+                      onChange={handleChange}
                       className="w-full px-4 py-3.5 rounded-2xl bg-[#FDFBF5] border border-[#E6D5B8] focus:border-[#C86D51] outline-none text-sm text-[#2A2421]"
                     >
                       <option value="">Odaberite vrstu</option>
@@ -177,6 +235,9 @@ export default function Contact() {
                   </label>
                   <textarea
                     rows={4}
+                    name="notes"
+                    value={formData.notes}
+                    onChange={handleChange}
                     placeholder="Opišite nam prostor (otvoreno/sala), broj gostiju i tematske želje..."
                     className="w-full px-4 py-3.5 rounded-2xl bg-[#FDFBF5] border border-[#E6D5B8] focus:border-[#C86D51] outline-none text-sm text-[#2A2421] resize-none"
                   />
@@ -187,7 +248,7 @@ export default function Contact() {
                   className="w-full py-4 rounded-2xl bg-[#C86D51] text-white font-medium text-sm tracking-wider uppercase hover:bg-[#b05c42] transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2"
                 >
                   <Send className="w-4 h-4" />
-                  Pošalji Upit za Rezervaciju
+                  Pošalji Upit na WhatsApp
                 </button>
               </form>
             )}
