@@ -6,7 +6,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, ChevronLeft, ChevronRight, X, Images } from "lucide-react";
 import { galleryProjects, ProjectItem, Category } from "@/data/galleryData";
 
-const ITEMS_PER_PAGE = 12; // 4 reda x 3 kolone
+const ITEMS_PER_PAGE = 12;
 
 const categories: { label: string; value: Category }[] = [
   { label: "Sve Dekoracije", value: "sve" },
@@ -25,13 +25,11 @@ export default function Gallery() {
 
   const galleryRef = useRef<HTMLElement>(null);
 
-  // Filtriranje projekata
   const filteredProjects =
     activeCategory === "sve"
       ? galleryProjects
       : galleryProjects.filter((item) => item.category === activeCategory);
 
-  // Izračun paginacije
   const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const currentProjects = filteredProjects.slice(
@@ -39,7 +37,6 @@ export default function Gallery() {
     startIndex + ITEMS_PER_PAGE
   );
 
-  // Promjena kategorije resetuje na 1. stranicu
   const handleCategoryChange = (category: Category) => {
     setActiveCategory(category);
     setCurrentPage(1);
@@ -50,7 +47,6 @@ export default function Gallery() {
     setSlideDirection(newPage > currentPage ? 1 : -1);
     setCurrentPage(newPage);
 
-    // Blagi skrol na početak galerije ako je korisnik bio nisko
     if (galleryRef.current) {
       const topOffset = galleryRef.current.getBoundingClientRect().top + window.scrollY - 80;
       window.scrollTo({ top: topOffset, behavior: "smooth" });
@@ -148,7 +144,6 @@ export default function Gallery() {
                   onClick={() => openProjectModal(project)}
                   className="group bg-[#F7F3EE] rounded-[32px] overflow-hidden border border-[#E6D5B8]/50 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col cursor-pointer"
                 >
-                  {/* Cover Slika */}
                   <div className="relative h-80 sm:h-96 w-full overflow-hidden">
                     <Image
                       src={project.coverImage}
@@ -160,18 +155,15 @@ export default function Gallery() {
                     
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                     
-                    {/* Bedž kategorije */}
                     <span className="absolute top-4 left-4 bg-[#FDFBF5]/95 backdrop-blur-md px-3.5 py-1 rounded-full text-[11px] font-semibold text-[#C86D51] uppercase tracking-wider shadow-sm">
                       {project.categoryLabel}
                     </span>
 
-                    {/* Bedž ukupnog broja slika */}
                     <div className="absolute top-4 right-4 bg-[#2A2421]/80 backdrop-blur-md text-[#FDFBF5] text-xs px-3 py-1 rounded-full flex items-center gap-1.5 font-medium">
                       <Images className="w-3.5 h-3.5 text-[#E6D5B8]" />
                       <span>{project.images.length} fotografija</span>
                     </div>
 
-                    {/* Hover prompt */}
                     <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                       <span className="px-5 py-2.5 rounded-full bg-[#FDFBF5]/90 backdrop-blur-md text-[#2A2421] text-xs font-semibold tracking-wider uppercase shadow-lg">
                         Pregledaj album
@@ -179,7 +171,6 @@ export default function Gallery() {
                     </div>
                   </div>
 
-                  {/* Tekst kartice */}
                   <div className="p-6 flex flex-col justify-between flex-1">
                     <div>
                       <h3 className="font-serif text-xl sm:text-2xl text-[#2A2421] group-hover:text-[#C86D51] transition-colors">
@@ -196,10 +187,9 @@ export default function Gallery() {
           </AnimatePresence>
         </div>
 
-        {/* HORIZONTALNI PAGINACIJSKI KONTROLER (Prikazuje se samo ako ima više od 12 tema) */}
+        {/* Paginacija */}
         {totalPages > 1 && (
           <div className="flex items-center justify-center gap-3 mt-16 pt-8 border-t border-[#E6D5B8]/40">
-            {/* Prethodna stranica */}
             <button
               onClick={() => handlePageChange(currentPage - 1)}
               disabled={currentPage === 1}
@@ -213,7 +203,6 @@ export default function Gallery() {
               <ChevronLeft className="w-5 h-5" />
             </button>
 
-            {/* Brojevi stranica */}
             <div className="flex items-center gap-2">
               {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
                 <button
@@ -230,7 +219,6 @@ export default function Gallery() {
               ))}
             </div>
 
-            {/* Sljedeća stranica */}
             <button
               onClick={() => handlePageChange(currentPage + 1)}
               disabled={currentPage === totalPages}
@@ -248,19 +236,19 @@ export default function Gallery() {
 
       </div>
 
-      {/* MODAL SLIDER (Galerija unutar galerije) */}
+      {/* MODAL SLIDER sa podrškom za touch swipe prstom */}
       <AnimatePresence>
         {selectedProject && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex flex-col justify-between bg-[#2A2421]/95 backdrop-blur-md p-4 sm:p-6 select-none"
+            className="fixed inset-0 z-50 flex flex-col justify-between bg-[#2A2421]/95 backdrop-blur-md p-4 sm:p-6 select-none touch-none"
             onClick={closeModal}
           >
             {/* Header modala */}
             <div
-              className="flex items-center justify-between text-[#FDFBF5] max-w-7xl w-full mx-auto pb-3"
+              className="flex items-center justify-between text-[#FDFBF5] max-w-7xl w-full mx-auto pb-3 z-20"
               onClick={(e) => e.stopPropagation()}
             >
               <div>
@@ -286,49 +274,71 @@ export default function Gallery() {
               </div>
             </div>
 
-            {/* Glavni slajder */}
+            {/* Centralni dio sa swipe / drag mehanizmom */}
             <div
-              className="relative flex-1 flex items-center justify-center max-w-5xl w-full mx-auto my-2"
+              className="relative flex-1 flex items-center justify-center max-w-5xl w-full mx-auto my-2 overflow-hidden"
               onClick={(e) => e.stopPropagation()}
             >
               <button
                 onClick={prevImage}
-                className="absolute left-2 sm:left-4 z-10 p-3 rounded-full bg-black/40 hover:bg-black/60 text-white backdrop-blur-sm transition-all"
+                className="hidden sm:flex absolute left-2 sm:left-4 z-20 p-3 rounded-full bg-black/40 hover:bg-black/60 text-white backdrop-blur-sm transition-all"
                 aria-label="Prethodna slika"
               >
                 <ChevronLeft className="w-6 h-6" />
               </button>
 
-              <div className="relative w-full h-[55vh] sm:h-[65vh] rounded-2xl overflow-hidden shadow-2xl">
-                <Image
-                  src={selectedProject.images[currentImageIndex]}
-                  alt={`${selectedProject.title} - slika ${currentImageIndex + 1}`}
-                  fill
-                  sizes="(max-width: 1280px) 100vw, 1200px"
-                  priority
-                  className="object-contain"
-                />
+              <div className="relative w-full h-[55vh] sm:h-[65vh] flex items-center justify-center">
+                <AnimatePresence initial={false} mode="wait">
+                  <motion.div
+                    key={currentImageIndex}
+                    drag="x"
+                    dragConstraints={{ left: 0, right: 0 }}
+                    dragElastic={0.4}
+                    onDragEnd={(_, info) => {
+                      const swipeThreshold = 50;
+                      if (info.offset.x < -swipeThreshold) {
+                        nextImage();
+                      } else if (info.offset.x > swipeThreshold) {
+                        prevImage();
+                      }
+                    }}
+                    initial={{ opacity: 0, scale: 0.95 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    exit={{ opacity: 0, scale: 0.95 }}
+                    transition={{ duration: 0.25 }}
+                    className="relative w-full h-full cursor-grab active:cursor-grabbing"
+                  >
+                    <Image
+                      src={selectedProject.images[currentImageIndex]}
+                      alt={`${selectedProject.title} - slika ${currentImageIndex + 1}`}
+                      fill
+                      sizes="(max-width: 1280px) 100vw, 1200px"
+                      priority
+                      className="object-contain pointer-events-none select-none"
+                    />
+                  </motion.div>
+                </AnimatePresence>
               </div>
 
               <button
                 onClick={nextImage}
-                className="absolute right-2 sm:right-4 z-10 p-3 rounded-full bg-black/40 hover:bg-black/60 text-white backdrop-blur-sm transition-all"
+                className="hidden sm:flex absolute right-2 sm:right-4 z-20 p-3 rounded-full bg-black/40 hover:bg-black/60 text-white backdrop-blur-sm transition-all"
                 aria-label="Sljedeća slika"
               >
                 <ChevronRight className="w-6 h-6" />
               </button>
             </div>
 
-            {/* Donji thumbnails */}
+            {/* Donji dio sa thumbnail trakicom */}
             <div
-              className="max-w-4xl w-full mx-auto pt-3 space-y-3"
+              className="max-w-4xl w-full mx-auto pt-3 space-y-3 z-20"
               onClick={(e) => e.stopPropagation()}
             >
               <p className="text-center text-xs sm:text-sm text-[#E6D5B8]/90 max-w-xl mx-auto">
                 {selectedProject.description}
               </p>
 
-              <div className="flex items-center justify-center gap-2 sm:gap-3 overflow-x-auto pb-2">
+              <div className="flex items-center justify-center gap-2 sm:gap-3 overflow-x-auto pb-2 px-2">
                 {selectedProject.images.map((img, idx) => (
                   <button
                     key={idx}
