@@ -21,9 +21,9 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Vintage Charm Dekoracije | Unikatne Event & Boho Dekoracije",
+  title: "Vintage Charm Dekoracije | Boho & Event Dekoracije",
   description:
-    "Ekskluzivne dekoracije za vjenčanja, djevojačke večeri, rođendane i posebne trenutke. Stvaramo bajkovitu atmosferu prilagođenu vašim željama.",
+    "Ekskluzivne dekoracije za vjenčanja, djevojačke večeri, rođendane i posebne proslave. Stvaramo bajkovitu atmosferu prilagođenu vašim željama.",
   keywords: [
     "Vintage Charm Dekoracije",
     "dekoracije vjenčanja",
@@ -35,7 +35,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: "Vintage Charm Dekoracije" }],
   creator: "Vintage Charm",
-  metadataBase: new URL("https://vintagecharm.ba"), // Ako još nema domenu, Vercel/Next će ovo koristiti kao bazu
+  metadataBase: new URL("https://vintage-charm-dekoracije.vercel.app"),
   openGraph: {
     title: "Vintage Charm Dekoracije | Boho & Svečane Dekoracije",
     description:
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
     type: "website",
     images: [
       {
-        url: "/galerija/boho-mol/cover.jpg", // Automatski vuče cover boho vjenčanja
+        url: "/galerija/boho-mol/cover.jpg",
         width: 1200,
         height: 630,
         alt: "Vintage Charm Dekoracije Portfolio",
@@ -71,14 +71,13 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  // Schema.org strukturirani podaci za LocalBusiness
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: "Vintage Charm Dekoracije",
-    image: "https://vintagecharm.ba/logo.png",
+    image: "https://vintage-charm-dekoracije.vercel.app/logo.png",
     telephone: "+38762317694",
-    url: "https://vintagecharm.ba",
+    url: "https://vintage-charm-dekoracije.vercel.app",
     priceRange: "$$",
     description:
       "Unikatne dekoracije za vjenčanja, djevojačke večeri, rođendane i intimne proslave u boho stilu.",
@@ -104,6 +103,10 @@ export default function RootLayout({
   return (
     <html lang="bs" className={`${cormorant.variable} ${jakarta.variable} scroll-smooth`}>
       <head>
+        <title>Vintage Charm Dekoracije | Boho & Event Dekoracije</title>
+        <meta name="title" content="Vintage Charm Dekoracije | Boho & Event Dekoracije" />
+        <meta property="og:title" content="Vintage Charm Dekoracije | Boho & Event Dekoracije" />
+        <link rel="icon" href="/logo.png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
