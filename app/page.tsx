@@ -8,6 +8,8 @@ import Gallery from "@/components/Gallery";
 import Services from "@/components/Services";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
+import Testimonials from "@/components/Testimonials";
+import FAQ from "@/components/FAQ";
 
 export default function Home() {
   return (
@@ -18,6 +20,8 @@ export default function Home() {
       <About />
       <Gallery />
       <Services />
+      <Testimonials/>
+      <FAQ/>
       <Contact />
       <Footer />
     </main>

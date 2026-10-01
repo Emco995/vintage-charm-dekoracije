@@ -38,6 +38,7 @@ export default function Footer() {
               <li><Link href="#o-nama" className="hover:text-white transition-colors">O nama</Link></li>
               <li><Link href="#galerija" className="hover:text-white transition-colors">Galerija Radova</Link></li>
               <li><Link href="#usluge" className="hover:text-white transition-colors">Usluge & Paketi</Link></li>
+              <li><Link href="#faq" className="hover:text-white transition-colors">Česta Pitanja (FAQ)</Link></li>
               <li><Link href="#kontakt" className="hover:text-white transition-colors">Kontakt & Rezervacije</Link></li>
             </ul>
           </div>
