@@ -36,33 +36,37 @@ export const metadata: Metadata = {
   authors: [{ name: "Vintage Charm Dekoracije" }],
   creator: "Vintage Charm",
   metadataBase: new URL("https://vintage-charm-dekoracije.vercel.app"),
+  icons: {
+    icon: [
+      { url: "/logo.png", type: "image/png" },
+      { url: "/icon.png", type: "image/png" },
+    ],
+    shortcut: "/logo.png",
+    apple: "/logo.png",
+  },
   openGraph: {
     title: "Vintage Charm Dekoracije | Boho & Svečane Dekoracije",
     description:
       "Unikatne i personalizovane dekoracije za vjenčanja, zaruke, djevojačke večeri i rođendane. Pogledajte naš portfolio.",
-    url: "/",
+    url: "https://vintage-charm-dekoracije.vercel.app",
     siteName: "Vintage Charm Dekoracije",
     locale: "bs_BA",
     type: "website",
     images: [
       {
-        url: "/galerija/boho-mol/cover.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Vintage Charm Dekoracije Portfolio",
+        url: "https://vintage-charm-dekoracije.vercel.app/logo.png",
+        width: 800,
+        height: 800,
+        alt: "Vintage Charm Dekoracije Logo",
       },
     ],
   },
   twitter: {
-    card: "summary_large_image",
+    card: "summary",
     title: "Vintage Charm Dekoracije",
     description:
       "Ekskluzivne dekoracije za vjenčanja, djevojačke večeri i rođendane.",
-    images: ["/galerija/boho-mol/cover.jpg"],
-  },
-  icons: {
-    icon: "/logo.png",
-    apple: "/logo.png",
+    images: ["https://vintage-charm-dekoracije.vercel.app/logo.png"],
   },
 };
 
@@ -106,7 +110,11 @@ export default function RootLayout({
         <title>Vintage Charm Dekoracije | Boho & Event Dekoracije</title>
         <meta name="title" content="Vintage Charm Dekoracije | Boho & Event Dekoracije" />
         <meta property="og:title" content="Vintage Charm Dekoracije | Boho & Event Dekoracije" />
-        <link rel="icon" href="/logo.png" />
+        <meta property="og:image" content="https://vintage-charm-dekoracije.vercel.app/logo.png" />
+        <meta property="og:image:width" content="800" />
+        <meta property="og:image:height" content="800" />
+        <link rel="icon" type="image/png" href="/logo.png" />
+        <link rel="apple-touch-icon" href="/logo.png" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
