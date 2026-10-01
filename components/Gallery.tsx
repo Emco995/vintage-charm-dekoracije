@@ -1,359 +1,488 @@
 "use client";
 
-import { useState, useEffect, useCallback, useRef } from "react";
+import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, ChevronLeft, ChevronRight, X, Images } from "lucide-react";
-import { galleryProjects, ProjectItem, Category } from "@/data/galleryData";
+import {
+  Sparkles,
+  ChevronLeft,
+  ChevronRight,
+  X,
+  Layers,
+  ChevronDown,
+  ChevronUp,
+} from "lucide-react";
 
-const ITEMS_PER_PAGE = 12;
+interface GalleryProject {
+  id: string;
+  folderName: string; // Tačan naziv foldera unutar public/galerija/
+  title: string;
+  category: "vjencanja" | "djevojacke" | "rodendani" | "zaruke";
+  categoryLabel: string;
+  aspectClass: string; // Različite visine za Pinterest / Masonry raspored
+  description: string;
+  imageCount: number; // Broj slika (1.jpg do n.jpg)
+}
 
-const categories: { label: string; value: Category }[] = [
-  { label: "Sve Dekoracije", value: "sve" },
-  { label: "Vjenčanja", value: "vjencanja" },
-  { label: "Zaruke", value: "zaruke" },
-  { label: "Djevojačke Večeri", value: "djevojacke" },
-  { label: "Rođendani & Jubileji", value: "rodjendani" },
+const projectList: GalleryProject[] = [
+  {
+    id: "autumun-wedding",
+    folderName: "autumn wedding",
+    title: "Autumn Wedding Čarolija",
+    category: "vjencanja",
+    categoryLabel: "Vjenčanje",
+    aspectClass: "h-[440px]",
+    description: "Topli jesenji tonovi, pampas trava i romantična rasvjeta.",
+    imageCount: 7,
+  },
+  {
+    id: "18i-rodjendan",
+    folderName: "18i rodjendan",
+    title: "Glamurozni 18. Rođendan",
+    category: "rodendani",
+    categoryLabel: "Rođendan",
+    aspectClass: "h-80",
+    description: "Organski balonski lukovi, neon brojevi i chic stolići za proslavu.",
+    imageCount: 6,
+  },
+  {
+    id: "boho-vjencanje",
+    folderName: "boho vjencanje",
+    title: "Boho Vjenčanje iz Snova",
+    category: "vjencanja",
+    categoryLabel: "Vjenčanje",
+    aspectClass: "h-[400px]",
+    description: "Sušeno cvijeće, prirodni materijali i ležerna estetika.",
+    imageCount: 6,
+  },
+  {
+    id: "capry-djevojacka",
+    folderName: "capry djevojacka",
+    title: "Capri Mediteranska Djevojačka",
+    category: "djevojacke",
+    categoryLabel: "Djevojačka",
+    aspectClass: "h-72",
+    description: "Limun motivi, pločice i osvježavajući ljetni ambijent.",
+    imageCount: 5,
+  },
+  {
+    id: "dream-white-wedding",
+    folderName: "dream white wedding",
+    title: "Dream White Vjenčanje",
+    category: "vjencanja",
+    categoryLabel: "Vjenčanje",
+    aspectClass: "h-[450px]",
+    description: "Elegancija u bijelim i krem nijansama sa raskošnim cvjetnim aranžmanima.",
+    imageCount: 6,
+  },
+  {
+    id: "zaruke-ljiljan",
+    folderName: "zaruke ljiljan",
+    title: "Romantične Zaruke Ljiljan",
+    category: "zaruke",
+    categoryLabel: "Zaruke",
+    aspectClass: "h-80",
+    description: "Intimna atmosfera uz svijeće, cvjetni luk i posebne trenutke.",
+    imageCount: 5,
+  },
+  {
+    id: "docek-kod-mlade",
+    folderName: "docek kod mlade",
+    title: "Svečani Doček kod Mlade",
+    category: "vjencanja",
+    categoryLabel: "Vjenčanje",
+    aspectClass: "h-72",
+    description: "Topla dobrodošlica gostima uz profinjenu postavku i detalje.",
+    imageCount: 5,
+  },
+  {
+    id: "fairy-piknik",
+    folderName: "fairy piknik",
+    title: "Fairy Bajkoviti Piknik",
+    category: "djevojacke",
+    categoryLabel: "Djevojačka / Piknik",
+    aspectClass: "h-[390px]",
+    description: "Niski drveni stolovi, jastuci, tkani ćilimi i ugođaj u prirodi.",
+    imageCount: 6,
+  },
+  {
+    id: "flowers-and-baloons-birthday",
+    folderName: "flowers and baloons birthday",
+    title: "Flowers & Balloons Proslava",
+    category: "rodendani",
+    categoryLabel: "Rođendan",
+    aspectClass: "h-80",
+    description: "Kombinacija svježeg cvijeća i pastelnih balona za pamćenje.",
+    imageCount: 5,
+  },
+  {
+    id: "rose-green-wedding",
+    folderName: "rose&green wedding",
+    title: "Rose & Green Vjenčana Bajka",
+    category: "vjencanja",
+    categoryLabel: "Vjenčanje",
+    aspectClass: "h-[420px]",
+    description: "Bujni eukaliptus, zelene girlande i nježne puder-roze ruže.",
+    imageCount: 6,
+  },
+  {
+    id: "ladybug-birthday",
+    folderName: "ladybug rodjendan",
+    title: "Ladybug Tematski Rođendan",
+    category: "rodendani",
+    categoryLabel: "Rođendan",
+    aspectClass: "h-72",
+    description: "Vesela i razigrana dekoracija za dječiji rođendan sa puno ljubavi.",
+    imageCount: 5,
+  },
+  {
+    id: "wedding-jessica",
+    folderName: "wedding jessica",
+    title: "Svečani Oltar Jessica",
+    category: "vjencanja",
+    categoryLabel: "Vjenčanje",
+    aspectClass: "h-[440px]",
+    description: "Predivna postavka vjenčanog oltara i mladenačkog stola.",
+    imageCount: 6,
+  },
+  {
+    id: "special-theme-rodjendan",
+    folderName: "special theme rodjendan",
+    title: "Special Theme Rođendan",
+    category: "rodendani",
+    categoryLabel: "Rođendan",
+    aspectClass: "h-72",
+    description: "Unikatan koncept prilagođen specifičnim željama slavljenika.",
+    imageCount: 5,
+  },
+  {
+    id: "zaruke-red",
+    folderName: "zaruke red",
+    title: "Red Passion Zaruke",
+    category: "zaruke",
+    categoryLabel: "Zaruke",
+    aspectClass: "h-[380px]",
+    description: "Crvene ruže, svjetlost svijeća i nezaboravan trenutak zaruka.",
+    imageCount: 5,
+  },
 ];
 
+const INITIAL_VISIBLE_COUNT = 6;
+
 export default function Gallery() {
-  const [activeCategory, setActiveCategory] = useState<Category>("sve");
-  const [currentPage, setCurrentPage] = useState(1);
-  const [slideDirection, setSlideDirection] = useState<1 | -1>(1);
-  const [selectedProject, setSelectedProject] = useState<ProjectItem | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>("sve");
+  const [showAll, setShowAll] = useState(false);
+  const [selectedProject, setSelectedProject] = useState<GalleryProject | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const galleryRef = useRef<HTMLElement>(null);
+  const touchStartX = useRef<number | null>(null);
+
+  const categories = [
+    { id: "sve", label: "Svi Radovi" },
+    { id: "vjencanja", label: "Vjenčanja" },
+    { id: "djevojacke", label: "Djevojačke & Piknik" },
+    { id: "rodendani", label: "Rođendani" },
+    { id: "zaruke", label: "Zaruke" },
+  ];
+
+  // Generiše putanje: /galerija/naziv foldera/cover.jpg, pa 1.jpg do N.jpg
+  const getProjectImages = (proj: GalleryProject): string[] => {
+    const folderEncoded = encodeURIComponent(proj.folderName);
+    const list = [`/galerija/${folderEncoded}/cover.jpg`];
+    for (let i = 1; i <= proj.imageCount; i++) {
+      list.push(`/galerija/${folderEncoded}/${i}.jpg`);
+    }
+    return list;
+  };
 
   const filteredProjects =
     activeCategory === "sve"
-      ? galleryProjects
-      : galleryProjects.filter((item) => item.category === activeCategory);
+      ? projectList
+      : projectList.filter((p) => p.category === activeCategory);
 
-  const totalPages = Math.ceil(filteredProjects.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const currentProjects = filteredProjects.slice(
-    startIndex,
-    startIndex + ITEMS_PER_PAGE
-  );
+  const visibleProjects = showAll
+    ? filteredProjects
+    : filteredProjects.slice(0, INITIAL_VISIBLE_COUNT);
 
-  const handleCategoryChange = (category: Category) => {
-    setActiveCategory(category);
-    setCurrentPage(1);
-  };
-
-  const handlePageChange = (newPage: number) => {
-    if (newPage < 1 || newPage > totalPages) return;
-    setSlideDirection(newPage > currentPage ? 1 : -1);
-    setCurrentPage(newPage);
-
-    if (galleryRef.current) {
-      const topOffset = galleryRef.current.getBoundingClientRect().top + window.scrollY - 80;
-      window.scrollTo({ top: topOffset, behavior: "smooth" });
-    }
-  };
-
-  const openProjectModal = (project: ProjectItem) => {
-    setSelectedProject(project);
+  const openProject = (proj: GalleryProject) => {
+    setSelectedProject(proj);
     setCurrentImageIndex(0);
+    document.body.style.overflow = "hidden";
   };
 
-  const closeModal = () => {
+  const closeProject = () => {
     setSelectedProject(null);
+    setCurrentImageIndex(0);
+    document.body.style.overflow = "auto";
   };
 
-  const nextImage = useCallback(() => {
+  const currentImages = selectedProject ? getProjectImages(selectedProject) : [];
+
+  const nextImage = () => {
+    if (!selectedProject) return;
+    setCurrentImageIndex((prev) => (prev + 1) % currentImages.length);
+  };
+
+  const prevImage = () => {
     if (!selectedProject) return;
     setCurrentImageIndex((prev) =>
-      prev === selectedProject.images.length - 1 ? 0 : prev + 1
+      prev === 0 ? currentImages.length - 1 : prev - 1
     );
-  }, [selectedProject]);
+  };
 
-  const prevImage = useCallback(() => {
-    if (!selectedProject) return;
-    setCurrentImageIndex((prev) =>
-      prev === 0 ? selectedProject.images.length - 1 : prev - 1
-    );
-  }, [selectedProject]);
-
+  // Prečice na tastaturi (Escape, Strelice)
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (!selectedProject) return;
-      if (e.key === "Escape") closeModal();
+      if (e.key === "Escape") closeProject();
       if (e.key === "ArrowRight") nextImage();
       if (e.key === "ArrowLeft") prevImage();
     };
-
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [selectedProject, nextImage, prevImage]);
+  }, [selectedProject, currentImages.length]);
+
+  // Touch Swipe kontrole za mobitel
+  const handleTouchStart = (e: React.TouchEvent) => {
+    touchStartX.current = e.touches[0].clientX;
+  };
+
+  const handleTouchEnd = (e: React.TouchEvent) => {
+    if (touchStartX.current === null) return;
+    const diff = touchStartX.current - e.changedTouches[0].clientX;
+    if (diff > 45) nextImage();
+    else if (diff < -45) prevImage();
+    touchStartX.current = null;
+  };
 
   return (
-    <section ref={galleryRef} id="galerija" className="py-24 sm:py-32 bg-[#FDFBF5] relative">
+    <section id="galerija" className="py-24 sm:py-32 bg-[#FDFBF5] relative">
       <div className="max-w-7xl mx-auto px-6 sm:px-8">
         
         {/* Naslov sekcije */}
         <div className="text-center max-w-2xl mx-auto space-y-4">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E6D5B8]/40 border border-[#C86D51]/30 text-[#C86D51] text-xs font-semibold tracking-wider uppercase">
             <Sparkles className="w-3.5 h-3.5" />
-            Portfolio Radova
+            Pinterest Galerija Radova
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl md:text-5xl text-[#2A2421]">
-            Naše kreacije u stvarnom prostoru
+            Trenuci pretvoreni u bajku
           </h2>
           <p className="text-sm sm:text-base text-[#786F6A]">
-            Kliknite na bilo koji događaj da otvorite kompletnu foto priču sa svim detaljima postavke.
+            Kliknite na bilo koju postavku da biste otvorili mini-galeriju sa svim fotografijama tog događaja.
           </p>
         </div>
 
         {/* Filter dugmad */}
-        <div className="flex flex-wrap items-center justify-center gap-2.5 mt-10 mb-14">
-          {categories.map((cat) => {
-            const isActive = activeCategory === cat.value;
+        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mt-12 mb-12">
+          {categories.map((cat) => (
+            <button
+              key={cat.id}
+              onClick={() => {
+                setActiveCategory(cat.id);
+                setShowAll(false);
+              }}
+              className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
+                activeCategory === cat.id
+                  ? "bg-[#C86D51] text-white shadow-md shadow-[#C86D51]/20 scale-105"
+                  : "bg-[#F7F3EE] text-[#786F6A] hover:bg-[#E6D5B8]/50 hover:text-[#2A2421]"
+              }`}
+            >
+              {cat.label}
+            </button>
+          ))}
+        </div>
+
+        {/* Pinterest Masonry raspored (3 stupca na desktopu, 2 na tabletu, 1 na mobitelu) */}
+        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+          {visibleProjects.map((proj, index) => {
+            const coverSrc = `/galerija/${encodeURIComponent(proj.folderName)}/cover.jpg`;
+            const totalPhotos = proj.imageCount + 1; // cover + ostale numerisane slike
+
             return (
-              <button
-                key={cat.value}
-                onClick={() => handleCategoryChange(cat.value)}
-                className={`px-5 py-2.5 rounded-full text-xs sm:text-sm font-medium transition-all duration-300 ${
-                  isActive
-                    ? "bg-[#C86D51] text-white shadow-md shadow-[#C86D51]/20 scale-105"
-                    : "bg-[#F7F3EE] text-[#786F6A] hover:bg-[#E6D5B8]/50 hover:text-[#2A2421]"
-                }`}
+              <motion.div
+                key={proj.id}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.4, delay: index * 0.06 }}
+                onClick={() => openProject(proj)}
+                className="break-inside-avoid group cursor-pointer relative overflow-hidden rounded-[28px] bg-[#FAF6F0] border border-[#E6D5B8]/60 shadow-sm hover:shadow-2xl transition-all duration-500 mb-6"
               >
-                {cat.label}
-              </button>
+                {/* Slika s odgovarajućom visinom */}
+                <div className={`relative w-full ${proj.aspectClass} overflow-hidden`}>
+                  <Image
+                    src={coverSrc}
+                    alt={proj.title}
+                    fill
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+                  />
+
+                  {/* Bedž s brojem fotografija */}
+                  <div className="absolute top-4 right-4 bg-black/50 backdrop-blur-md text-white text-[11px] font-medium px-3 py-1.5 rounded-full flex items-center gap-1.5 z-10 border border-white/20">
+                    <Layers className="w-3.5 h-3.5" />
+                    <span>{totalPhotos} fotki</span>
+                  </div>
+
+                  {/* Prekrivač pri hoveru */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#2A2421]/90 via-[#2A2421]/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6 text-white">
+                    <span className="text-[11px] uppercase tracking-wider text-[#E6D5B8] font-semibold">
+                      {proj.categoryLabel}
+                    </span>
+                    <h3 className="font-serif text-xl sm:text-2xl mt-1 leading-snug">
+                      {proj.title}
+                    </h3>
+                    <p className="text-xs text-white/80 mt-1 line-clamp-2">
+                      {proj.description}
+                    </p>
+                    <span className="text-xs text-[#E6D5B8] font-medium mt-3 flex items-center gap-1">
+                      Pregledaj galeriju ({totalPhotos} slika) &rarr;
+                    </span>
+                  </div>
+                </div>
+
+                {/* Donji opis za mobilne uređaje bez hovera */}
+                <div className="p-4 sm:hidden bg-[#FDFBF5] border-t border-[#E6D5B8]/40 flex items-center justify-between">
+                  <div>
+                    <span className="text-[10px] uppercase tracking-wider text-[#C86D51] font-semibold">
+                      {proj.categoryLabel}
+                    </span>
+                    <h4 className="font-serif text-base text-[#2A2421] font-medium">
+                      {proj.title}
+                    </h4>
+                  </div>
+                  <span className="text-xs text-[#C86D51] font-medium">
+                    Otvori ({totalPhotos})
+                  </span>
+                </div>
+              </motion.div>
             );
           })}
         </div>
 
-        {/* Kontejner mreže sa glatkom horizontalnom animacijom smjene stranica */}
-        <div className="relative min-h-[600px] overflow-hidden">
-          <AnimatePresence mode="wait" custom={slideDirection}>
-            <motion.div
-              key={`${activeCategory}-${currentPage}`}
-              custom={slideDirection}
-              initial={{ opacity: 0, x: slideDirection * 60 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: slideDirection * -60 }}
-              transition={{ duration: 0.45, ease: [0.25, 1, 0.5, 1] }}
-              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-              {currentProjects.map((project) => (
-                <div
-                  key={project.id}
-                  onClick={() => openProjectModal(project)}
-                  className="group bg-[#F7F3EE] rounded-[32px] overflow-hidden border border-[#E6D5B8]/50 shadow-sm hover:shadow-xl transition-all duration-500 flex flex-col cursor-pointer"
-                >
-                  <div className="relative h-80 sm:h-96 w-full overflow-hidden">
-                    <Image
-                      src={project.coverImage}
-                      alt={project.title}
-                      fill
-                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                      className="object-cover group-hover:scale-105 transition-transform duration-700"
-                    />
-                    
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                    
-                    <span className="absolute top-4 left-4 bg-[#FDFBF5]/95 backdrop-blur-md px-3.5 py-1 rounded-full text-[11px] font-semibold text-[#C86D51] uppercase tracking-wider shadow-sm">
-                      {project.categoryLabel}
-                    </span>
-
-                    <div className="absolute top-4 right-4 bg-[#2A2421]/80 backdrop-blur-md text-[#FDFBF5] text-xs px-3 py-1 rounded-full flex items-center gap-1.5 font-medium">
-                      <Images className="w-3.5 h-3.5 text-[#E6D5B8]" />
-                      <span>{project.images.length} fotografija</span>
-                    </div>
-
-                    <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <span className="px-5 py-2.5 rounded-full bg-[#FDFBF5]/90 backdrop-blur-md text-[#2A2421] text-xs font-semibold tracking-wider uppercase shadow-lg">
-                        Pregledaj album
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="p-6 flex flex-col justify-between flex-1">
-                    <div>
-                      <h3 className="font-serif text-xl sm:text-2xl text-[#2A2421] group-hover:text-[#C86D51] transition-colors">
-                        {project.title}
-                      </h3>
-                      <p className="text-xs sm:text-sm text-[#786F6A] mt-2 leading-relaxed line-clamp-2">
-                        {project.description}
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </motion.div>
-          </AnimatePresence>
-        </div>
-
-        {/* Paginacija */}
-        {totalPages > 1 && (
-          <div className="flex items-center justify-center gap-3 mt-16 pt-8 border-t border-[#E6D5B8]/40">
+        {/* Dugme za proširenje (Učitaj više / Prikaži manje) */}
+        {filteredProjects.length > INITIAL_VISIBLE_COUNT && (
+          <div className="text-center mt-12">
             <button
-              onClick={() => handlePageChange(currentPage - 1)}
-              disabled={currentPage === 1}
-              className={`p-3 rounded-full border border-[#E6D5B8] flex items-center justify-center transition-all ${
-                currentPage === 1
-                  ? "opacity-30 cursor-not-allowed text-[#786F6A]"
-                  : "bg-[#F7F3EE] hover:bg-[#C86D51] hover:text-white text-[#2A2421] shadow-sm"
-              }`}
-              aria-label="Prethodna stranica"
+              onClick={() => setShowAll(!showAll)}
+              className="inline-flex items-center gap-2 px-8 py-3.5 rounded-full bg-[#FAF6F0] hover:bg-[#E6D5B8]/40 border border-[#C86D51]/40 text-[#2A2421] text-xs uppercase tracking-wider font-semibold transition-all shadow-sm hover:shadow"
             >
-              <ChevronLeft className="w-5 h-5" />
-            </button>
-
-            <div className="flex items-center gap-2">
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((pageNum) => (
-                <button
-                  key={pageNum}
-                  onClick={() => handlePageChange(pageNum)}
-                  className={`w-11 h-11 rounded-full text-sm font-medium transition-all ${
-                    currentPage === pageNum
-                      ? "bg-[#C86D51] text-white shadow-md shadow-[#C86D51]/20 scale-105"
-                      : "bg-[#F7F3EE] text-[#786F6A] hover:bg-[#E6D5B8]/50 hover:text-[#2A2421]"
-                  }`}
-                >
-                  {pageNum}
-                </button>
-              ))}
-            </div>
-
-            <button
-              onClick={() => handlePageChange(currentPage + 1)}
-              disabled={currentPage === totalPages}
-              className={`p-3 rounded-full border border-[#E6D5B8] flex items-center justify-center transition-all ${
-                currentPage === totalPages
-                  ? "opacity-30 cursor-not-allowed text-[#786F6A]"
-                  : "bg-[#F7F3EE] hover:bg-[#C86D51] hover:text-white text-[#2A2421] shadow-sm"
-              }`}
-              aria-label="Sljedeća stranica"
-            >
-              <ChevronRight className="w-5 h-5" />
+              {showAll ? (
+                <>
+                  Prikaži manje <ChevronUp className="w-4 h-4 text-[#C86D51]" />
+                </>
+              ) : (
+                <>
+                  Učitaj više radova ({filteredProjects.length - INITIAL_VISIBLE_COUNT}){" "}
+                  <ChevronDown className="w-4 h-4 text-[#C86D51]" />
+                </>
+              )}
             </button>
           </div>
         )}
 
       </div>
 
-      {/* MODAL SLIDER sa podrškom za touch swipe prstom */}
+      {/* Modalni Lightbox */}
       <AnimatePresence>
         {selectedProject && (
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 flex flex-col justify-between bg-[#2A2421]/95 backdrop-blur-md p-4 sm:p-6 select-none touch-none"
-            onClick={closeModal}
+            className="fixed inset-0 z-50 bg-[#2A2421]/95 backdrop-blur-md flex flex-col justify-between p-4 sm:p-6"
+            onTouchStart={handleTouchStart}
+            onTouchEnd={handleTouchEnd}
           >
-            {/* Header modala */}
-            <div
-              className="flex items-center justify-between text-[#FDFBF5] max-w-7xl w-full mx-auto pb-3 z-20"
-              onClick={(e) => e.stopPropagation()}
-            >
+            {/* Gornja traka: Naslov i Dugme Zatvori */}
+            <div className="flex items-center justify-between z-20 max-w-6xl w-full mx-auto">
               <div>
-                <span className="text-[11px] uppercase tracking-widest text-[#E6D5B8]">
+                <span className="text-xs text-[#E6D5B8] uppercase tracking-wider font-medium">
                   {selectedProject.categoryLabel}
                 </span>
-                <h3 className="font-serif text-xl sm:text-2xl text-[#FDFBF5]">
+                <h3 className="font-serif text-xl sm:text-2xl text-white">
                   {selectedProject.title}
                 </h3>
               </div>
-
-              <div className="flex items-center gap-4">
-                <span className="text-xs tracking-widest text-[#E6D5B8]/80 font-mono">
-                  {currentImageIndex + 1} / {selectedProject.images.length}
-                </span>
-                <button
-                  onClick={closeModal}
-                  className="p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-[#FDFBF5] transition-colors"
-                  aria-label="Zatvori galeriju"
-                >
-                  <X className="w-6 h-6" />
-                </button>
-              </div>
+              <button
+                onClick={closeProject}
+                className="p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors"
+                aria-label="Zatvori galeriju"
+              >
+                <X className="w-6 h-6" />
+              </button>
             </div>
 
-            {/* Centralni dio sa swipe / drag mehanizmom */}
-            <div
-              className="relative flex-1 flex items-center justify-center max-w-5xl w-full mx-auto my-2 overflow-hidden"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <button
-                onClick={prevImage}
-                className="hidden sm:flex absolute left-2 sm:left-4 z-20 p-3 rounded-full bg-black/40 hover:bg-black/60 text-white backdrop-blur-sm transition-all"
-                aria-label="Prethodna slika"
-              >
-                <ChevronLeft className="w-6 h-6" />
-              </button>
+            {/* Središnji prikaz slike sa navigacijom */}
+            <div className="relative flex-1 flex items-center justify-center my-4">
+              {currentImages.length > 1 && (
+                <button
+                  onClick={prevImage}
+                  className="absolute left-2 sm:left-6 z-20 p-3 rounded-full bg-black/40 hover:bg-black/70 text-white border border-white/10 backdrop-blur-sm transition-all"
+                  aria-label="Prethodna slika"
+                >
+                  <ChevronLeft className="w-6 h-6" />
+                </button>
+              )}
 
-              <div className="relative w-full h-[55vh] sm:h-[65vh] flex items-center justify-center">
-                <AnimatePresence initial={false} mode="wait">
+              <div className="relative w-full h-[60vh] sm:h-[72vh] max-w-4xl mx-auto flex items-center justify-center">
+                <AnimatePresence mode="wait">
                   <motion.div
                     key={currentImageIndex}
-                    drag="x"
-                    dragConstraints={{ left: 0, right: 0 }}
-                    dragElastic={0.4}
-                    onDragEnd={(_, info) => {
-                      const swipeThreshold = 50;
-                      if (info.offset.x < -swipeThreshold) {
-                        nextImage();
-                      } else if (info.offset.x > swipeThreshold) {
-                        prevImage();
-                      }
-                    }}
-                    initial={{ opacity: 0, scale: 0.95 }}
+                    initial={{ opacity: 0, scale: 0.96 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
+                    exit={{ opacity: 0, scale: 0.96 }}
                     transition={{ duration: 0.25 }}
-                    className="relative w-full h-full cursor-grab active:cursor-grabbing"
+                    className="relative w-full h-full"
                   >
                     <Image
-                      src={selectedProject.images[currentImageIndex]}
-                      alt={`${selectedProject.title} - slika ${currentImageIndex + 1}`}
+                      src={currentImages[currentImageIndex]}
+                      alt={`${selectedProject.title} ${currentImageIndex + 1}`}
                       fill
-                      sizes="(max-width: 1280px) 100vw, 1200px"
                       priority
-                      className="object-contain pointer-events-none select-none"
+                      className="object-contain"
                     />
                   </motion.div>
                 </AnimatePresence>
               </div>
 
-              <button
-                onClick={nextImage}
-                className="hidden sm:flex absolute right-2 sm:right-4 z-20 p-3 rounded-full bg-black/40 hover:bg-black/60 text-white backdrop-blur-sm transition-all"
-                aria-label="Sljedeća slika"
-              >
-                <ChevronRight className="w-6 h-6" />
-              </button>
+              {currentImages.length > 1 && (
+                <button
+                  onClick={nextImage}
+                  className="absolute right-2 sm:right-6 z-20 p-3 rounded-full bg-black/40 hover:bg-black/70 text-white border border-white/10 backdrop-blur-sm transition-all"
+                  aria-label="Sljedeća slika"
+                >
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+              )}
             </div>
 
-            {/* Donji dio sa thumbnail trakicom */}
-            <div
-              className="max-w-4xl w-full mx-auto pt-3 space-y-3 z-20"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <p className="text-center text-xs sm:text-sm text-[#E6D5B8]/90 max-w-xl mx-auto">
-                {selectedProject.description}
-              </p>
+            {/* Donja traka: Brojač, opis i Thumbnail traka */}
+            <div className="max-w-3xl w-full mx-auto space-y-3 z-20">
+              <div className="flex items-center justify-between text-xs text-[#E6D5B8]">
+                <span>{selectedProject.description}</span>
+                <span className="font-semibold px-2.5 py-1 rounded-full bg-white/10">
+                  {currentImageIndex + 1} / {currentImages.length}
+                </span>
+              </div>
 
-              <div className="flex items-center justify-center gap-2 sm:gap-3 overflow-x-auto pb-2 px-2">
-                {selectedProject.images.map((img, idx) => (
+              {/* Thumbnails */}
+              <div className="flex items-center justify-center gap-2 overflow-x-auto py-2">
+                {currentImages.map((img, idx) => (
                   <button
                     key={idx}
                     onClick={() => setCurrentImageIndex(idx)}
-                    className={`relative w-14 h-14 sm:w-16 sm:h-16 rounded-xl overflow-hidden flex-shrink-0 transition-all ${
-                      idx === currentImageIndex
+                    className={`relative w-12 h-12 rounded-xl overflow-hidden flex-shrink-0 transition-all ${
+                      currentImageIndex === idx
                         ? "ring-2 ring-[#C86D51] scale-105 opacity-100"
                         : "opacity-40 hover:opacity-80"
                     }`}
                   >
                     <Image
                       src={img}
-                      alt={`Thumbnail ${idx + 1}`}
+                      alt="thumbnail"
                       fill
-                      sizes="64px"
                       className="object-cover"
                     />
                   </button>
