@@ -17,7 +17,7 @@ interface GalleryProject {
   id: string;
   folderName: string;
   title: string;
-  category: "vjencanja" | "djevojacke" | "rodendani" | "zaruke";
+  category: "vjencanja" | "djevojacke" | "rodendani" | "zaruke" | "manifestacije";
   categoryLabel: string;
   aspectClass: string;
   description: string;
@@ -36,6 +36,28 @@ const projectList: GalleryProject[] = [
     imageCount: 7,
   },
   {
+    id: "vjencanje-u-prirodi",
+    folderName: "vjencanje u prirodi",
+    title: "Vjencanje u prirodi na staroj dobroj lokaciji-Jezero Hazna",
+    category: "vjencanja",
+    categoryLabel: "Vjenčanje",
+    aspectClass: "h-48 sm:h-80",
+    description:
+      "Vjenčanje u prirodi, svadba u Orionu, dočeci, ispraćaji i još puno lijepih trenutaka iza nas. 🤍Još jedan vikend iza nas",
+    imageCount: 14,
+  },
+  {
+    id: "white-green-elegance",
+    folderName: "White & Green Elegance with Calla Lilies",
+    title: "White & Green Elegance with Calla Lilies",
+    category: "vjencanja",
+    categoryLabel: "Vjenčanje",
+    aspectClass: "h-48 sm:h-80",
+    description:
+      "Vajb koji nas je na trenutak odveo do Italije — zelenilo, kamen, grožđe i kale kao glavni detalji ove dekoracije. 🍇🌿Volimo kada upravo mali detalji naprave najveću razliku.",
+    imageCount: 6,
+  },
+  {
     id: "18i-rodjendan",
     folderName: "18i rodjendan",
     title: "Glamurozni 18. Rođendan",
@@ -52,17 +74,29 @@ const projectList: GalleryProject[] = [
     category: "vjencanja",
     categoryLabel: "Vjenčanje",
     aspectClass: "h-60 sm:h-[390px]",
-    description: "Sušeno cvijeće, prirodni materijali i ležerna estetika.",
+    description:
+      "September mood, ali u najljepšim bojama. 🧡🍂 Topli tonovi, prirodni ambijent i svadba koja miriše na miholjsko ljeto. ✨",
     imageCount: 6,
+  },
+  {
+    id: "restoran-zlatnik-vjencanje",
+    folderName: "restoran zlatnik vjencanje",
+    title: "Less is more.",
+    category: "vjencanja",
+    categoryLabel: "Vjenčanje",
+    aspectClass: "h-60 sm:h-[390px]",
+    description: "Bijela elegancija koja govori sama za sebe. ✨",
+    imageCount: 5,
   },
   {
     id: "capry-djevojacka",
     folderName: "capry djevojacka",
-    title: "Capri Mediteranska Djevojačka",
+    title: "Italian vibes & bride-to-be! 🍋",
     category: "djevojacke",
     categoryLabel: "Djevojačka",
     aspectClass: "h-44 sm:h-72",
-    description: "Limun motivi, pločice i osvježavajući ljetni ambijent.",
+    description:
+      "Djevojačko veče inspirisano najljepšim bojama Italije — limuni, plavi detalji i puno dobre energije. 🇮🇹✨",
     imageCount: 5,
   },
   {
@@ -72,7 +106,8 @@ const projectList: GalleryProject[] = [
     category: "vjencanja",
     categoryLabel: "Vjenčanje",
     aspectClass: "h-64 sm:h-[440px]",
-    description: "Elegancija u bijelim i krem nijansama sa raskošnim cvjetnim aranžmanima.",
+    description:
+      "Savršena kombinacija za ambijent sale i jedna od onih dekoracija koje jednostavno sve povežu u cjelinu. Mislim da mladenka nije mogla izabrati bolju kombinaciju. 🤍",
     imageCount: 6,
   },
   {
@@ -82,7 +117,8 @@ const projectList: GalleryProject[] = [
     category: "zaruke",
     categoryLabel: "Zaruke",
     aspectClass: "h-52 sm:h-80",
-    description: "Intimna atmosfera uz svijeće, cvjetni luk i posebne trenutke.",
+    description:
+      "Rekla je DA! 🤍 Danas smo na Spomen-obilježju „Ljiljan“ imali jednu od najemotivnijih prosidbi koje smo do sada radili. 🥹🤍 Iznenađenje je uspjelo – ostala je potpuno zatečena i oduševljena. Elegantne boje, nježni detalji i cvijet ljiljana savršeno su se uklopili u ovaj ambijent. 🤍 Ako i vi imate posebnu osobu kojoj želite prirediti iznenađenje, tu smo da zajedno osmislimo trenutak koji će pamtiti zauvijek. ✨",
     imageCount: 5,
   },
   {
@@ -92,7 +128,8 @@ const projectList: GalleryProject[] = [
     category: "vjencanja",
     categoryLabel: "Vjenčanje",
     aspectClass: "h-44 sm:h-72",
-    description: "Topla dobrodošlica gostima uz profinjenu postavku i detalje.",
+    description:
+      "Boho Colours 🌾 Za divnu Lejlu ovog puta radili smo boho dekoraciju u toplim, prirodnim tonovima – za ispraćaj kući i salu. 🤍",
     imageCount: 5,
   },
   {
@@ -104,6 +141,16 @@ const projectList: GalleryProject[] = [
     aspectClass: "h-56 sm:h-[380px]",
     description: "Niski drveni stolovi, jastuci, tkani ćilimi i ugođaj u prirodi.",
     imageCount: 6,
+  },
+  {
+    id: "sajam kicenje",
+    folderName: "sajam kicenje",
+    title: "💛 Dobro došli na 53. Gradačački sajam šljive! 💛",
+    category: "manifestacije",
+    categoryLabel: "Manifestacija",
+    aspectClass: "h-56 sm:h-[380px]",
+    description: "Veliko nam je zadovoljstvo što i ove godine imamo priliku biti dio ove tradicionalne manifestacije i urediti binu za svečano otvaranje Sajma, kao i prostor za svečani čin presijecanja vrpce. ✨ Godinama zajedno čuvamo tradiciju da naš Gradačac u dane Sajma zasija u posebnom ruhu. 💙",
+    imageCount: 7,
   },
   {
     id: "flowers-and-baloons-birthday",
@@ -123,17 +170,27 @@ const projectList: GalleryProject[] = [
     categoryLabel: "Vjenčanje",
     aspectClass: "h-64 sm:h-[420px]",
     description: "Bujni eukaliptus, zelene girlande i nježne puder-roze ruže.",
-    imageCount: 6,
+    imageCount: 9,
   },
   {
     id: "ladybug-birthday",
     folderName: "ladybug birthday",
-    title: "Ladybug Tematski Rođendan",
+    title: "🐞❤️ Ladybug Birthday ❤️🐞",
     category: "rodendani",
     categoryLabel: "Rođendan",
     aspectClass: "h-44 sm:h-72",
-    description: "Vesela i razigrana dekoracija za dječiji rođendan sa puno ljubavi.",
+    description: "Za preslatku Hannu kreirali smo mali svijet bubamara🐞✨",
     imageCount: 5,
+  },
+  {
+    id: "cherry rodjendan",
+    folderName: "cherry rodjendan",
+    title: "🍒 She’s the cherry on top.",
+    category: "rodendani",
+    categoryLabel: "Rođendan",
+    aspectClass: "h-44 sm:h-72",
+    description: "Za 18. rođendan koje će se dugo prepričavati. ",
+    imageCount: 3,
   },
   {
     id: "wedding-jessica",
@@ -142,7 +199,27 @@ const projectList: GalleryProject[] = [
     category: "vjencanja",
     categoryLabel: "Vjenčanje",
     aspectClass: "h-64 sm:h-[440px]",
-    description: "Predivna postavka vjenčanog oltara i mladenačkog stola.",
+    description: "Za Jessicu, s puno ljubavi. 🩷 Iako ne govori naš jezik, ideje i malo mašte bili su sasvim dovoljni da zajedno ostvarimo njene želje. ✨",
+    imageCount: 6,
+  },
+  {
+    id: "green and white wedding",
+    folderName: "green and white wedding",
+    title: "Green & White Wedding 🤍🌿",
+    category: "vjencanja",
+    categoryLabel: "Vjenčanje",
+    aspectClass: "h-64 sm:h-[440px]",
+    description: "Jednostavno i elegantno. Dekoracija koja se savršeno uklapa u prirodni ambijent jezera Hazna. ✨ Za naše postavke koristimo isključivo kvalitetno umjetno cvijeće, kako bi svaki detalj izgledao besprijekorno.",
+    imageCount: 9,
+  },
+  {
+    id: "baby blue dream wedding",
+    folderName: "baby blue dream wedding",
+    title: "Baby Blue Dream Wedding 🤍",
+    category: "vjencanja",
+    categoryLabel: "Vjenčanje",
+    aspectClass: "h-64 sm:h-[440px]",
+    description: "Draperije sa puno materijala su jedan od hitova ove sezone. ✨ Bijela boja uz nježne plave detalje savršeno je upotpunila mjesto za slikanje ovog filmskog vjenčanja u dvorištu. 🤍",
     imageCount: 6,
   },
   {
@@ -152,8 +229,19 @@ const projectList: GalleryProject[] = [
     category: "rodendani",
     categoryLabel: "Rođendan",
     aspectClass: "h-48 sm:h-72",
-    description: "Unikatan koncept prilagođen specifičnim željama slavljenika.",
+    description: "Hello, 18! 🖤 Tamnije boje, dekoracija koja je ostavila baš snažan utisak. ✨",
     imageCount: 5,
+  },
+  {
+    id: "medo-rodjendan",
+    folderName: "medo rodjendan",
+    title: "Tematski rođendan u znaku Mede",
+    category: "rodendani",
+    categoryLabel: "Rođendan",
+    aspectClass: "h-48 sm:h-72",
+    description:
+      "Za preslatkog dječaka radili smo tematski rođendan u znaku Mede 🧸 Sretan prvi rođendan slavljeniku 🎂",
+    imageCount: 2,
   },
   {
     id: "zaruke-red",
@@ -183,13 +271,13 @@ export default function Gallery() {
     { id: "djevojacke", label: "Djevojačke & Piknik" },
     { id: "rodendani", label: "Rođendani" },
     { id: "zaruke", label: "Zaruke" },
+    { id: "manifestacije", label: "Manifestacije" },
   ];
 
   const getProjectImages = (proj: GalleryProject): string[] => {
-    const folderEncoded = encodeURIComponent(proj.folderName);
-    const list = [`/galerija/${folderEncoded}/cover.jpg`];
+    const list = [`/galerija/${proj.folderName}/cover.jpg`];
     for (let i = 1; i <= proj.imageCount; i++) {
-      list.push(`/galerija/${folderEncoded}/${i}.jpg`);
+      list.push(`/galerija/${proj.folderName}/${i}.jpg`);
     }
     return list;
   };
@@ -255,7 +343,6 @@ export default function Gallery() {
   return (
     <section id="galerija" className="py-20 sm:py-32 bg-[#FDFBF5] relative">
       <div className="max-w-7xl mx-auto px-4 sm:px-8">
-        
         {/* Naslov sekcije */}
         <div className="text-center max-w-2xl mx-auto space-y-3 sm:space-y-4">
           <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#E6D5B8]/40 border border-[#C86D51]/30 text-[#C86D51] text-[11px] sm:text-xs font-semibold tracking-wider uppercase">
@@ -290,10 +377,10 @@ export default function Gallery() {
           ))}
         </div>
 
-        {/* Pinterest Masonry Grid: 2 kolone na mobitelu (columns-2), 3 kolone od md naviše */}
+        {/* Pinterest Masonry Grid */}
         <div className="columns-2 md:columns-3 gap-3 sm:gap-6 space-y-3 sm:space-y-6">
           {visibleProjects.map((proj, index) => {
-            const coverSrc = `/galerija/${encodeURIComponent(proj.folderName)}/cover.jpg`;
+            const coverSrc = `/galerija/${proj.folderName}/cover.jpg`;
             const totalPhotos = proj.imageCount + 1;
 
             return (
@@ -306,17 +393,17 @@ export default function Gallery() {
                 onClick={() => openProject(proj)}
                 className="break-inside-avoid group cursor-pointer relative overflow-hidden rounded-2xl sm:rounded-[28px] bg-[#FAF6F0] border border-[#E6D5B8]/60 shadow-sm hover:shadow-2xl transition-all duration-300 mb-3 sm:mb-6"
               >
-                {/* Slika s prilagođenom visinom za mobitel i desktop */}
                 <div className={`relative w-full ${proj.aspectClass} overflow-hidden`}>
                   <Image
                     src={coverSrc}
                     alt={proj.title}
                     fill
-                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 50vw, 33vw"
+                    priority={index < 2}
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
 
-                  {/* Bedž sa brojem fotografija */}
+                  {/* Bedž s brojem fotografija */}
                   <div className="absolute top-2.5 right-2.5 sm:top-4 sm:right-4 bg-black/60 backdrop-blur-md text-white text-[10px] sm:text-xs font-medium px-2 py-0.5 sm:px-3 sm:py-1.5 rounded-full flex items-center gap-1 border border-white/20">
                     <Layers className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                     <span>{totalPhotos}</span>
@@ -339,7 +426,7 @@ export default function Gallery() {
                   </div>
                 </div>
 
-                {/* Mobilni minimalistički opis ispod kartice */}
+                {/* Mobilni naslov */}
                 <div className="p-2 sm:hidden bg-[#FDFBF5] border-t border-[#E6D5B8]/30">
                   <p className="text-[9px] uppercase tracking-wider text-[#C86D51] font-semibold truncate">
                     {proj.categoryLabel}
@@ -373,7 +460,6 @@ export default function Gallery() {
             </button>
           </div>
         )}
-
       </div>
 
       {/* Modalni Lightbox */}
@@ -383,12 +469,12 @@ export default function Gallery() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-[#2A2421]/95 backdrop-blur-md flex flex-col justify-between p-3 sm:p-6"
+            className="fixed inset-0 z-50 bg-[#2A2421]/95 backdrop-blur-md flex flex-col justify-between p-3 sm:p-5 h-[100dvh]"
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
-            {/* Gornja traka: Naslov i Zatvori dugme */}
-            <div className="flex items-center justify-between z-20 max-w-6xl w-full mx-auto">
+            {/* Gornja traka: Naslov i Dugme Zatvori */}
+            <div className="flex items-center justify-between z-30 max-w-6xl w-full mx-auto flex-shrink-0 py-1">
               <div className="pr-4 truncate">
                 <span className="text-[10px] sm:text-xs text-[#E6D5B8] uppercase tracking-wider font-medium">
                   {selectedProject.categoryLabel}
@@ -399,33 +485,33 @@ export default function Gallery() {
               </div>
               <button
                 onClick={closeProject}
-                className="p-2 sm:p-3 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors flex-shrink-0"
+                className="p-2 sm:p-2.5 rounded-full bg-white/10 hover:bg-white/20 text-white transition-colors flex-shrink-0"
                 aria-label="Zatvori galeriju"
               >
                 <X className="w-5 h-5 sm:w-6 sm:h-6" />
               </button>
             </div>
 
-            {/* Središnji prikaz slike sa navigacijom */}
-            <div className="relative flex-1 flex items-center justify-center my-2 sm:my-4">
+            {/* Središnji prikaz slike */}
+            <div className="relative flex-1 min-h-0 w-full max-w-5xl mx-auto flex items-center justify-center my-1 sm:my-2">
               {currentImages.length > 1 && (
                 <button
                   onClick={prevImage}
-                  className="hidden sm:flex absolute left-2 sm:left-6 z-20 p-3 rounded-full bg-black/40 hover:bg-black/70 text-white border border-white/10 backdrop-blur-sm transition-all"
+                  className="hidden sm:flex absolute left-2 sm:left-4 z-20 p-3 rounded-full bg-black/50 hover:bg-black/80 text-white border border-white/15 backdrop-blur-sm transition-all"
                   aria-label="Prethodna slika"
                 >
                   <ChevronLeft className="w-6 h-6" />
                 </button>
               )}
 
-              <div className="relative w-full h-[62vh] sm:h-[72vh] max-w-4xl mx-auto flex items-center justify-center">
+              <div className="relative w-full h-full flex items-center justify-center">
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={currentImageIndex}
-                    initial={{ opacity: 0, scale: 0.96 }}
+                    initial={{ opacity: 0, scale: 0.98 }}
                     animate={{ opacity: 1, scale: 1 }}
-                    exit={{ opacity: 0, scale: 0.96 }}
-                    transition={{ duration: 0.25 }}
+                    exit={{ opacity: 0, scale: 0.98 }}
+                    transition={{ duration: 0.2 }}
                     className="relative w-full h-full"
                   >
                     <Image
@@ -433,6 +519,7 @@ export default function Gallery() {
                       alt={`${selectedProject.title} ${currentImageIndex + 1}`}
                       fill
                       priority
+                      sizes="(max-width: 768px) 100vw, 85vw"
                       className="object-contain"
                     />
                   </motion.div>
@@ -442,7 +529,7 @@ export default function Gallery() {
               {currentImages.length > 1 && (
                 <button
                   onClick={nextImage}
-                  className="hidden sm:flex absolute right-2 sm:right-6 z-20 p-3 rounded-full bg-black/40 hover:bg-black/70 text-white border border-white/10 backdrop-blur-sm transition-all"
+                  className="hidden sm:flex absolute right-2 sm:right-4 z-20 p-3 rounded-full bg-black/50 hover:bg-black/80 text-white border border-white/15 backdrop-blur-sm transition-all"
                   aria-label="Sljedeća slika"
                 >
                   <ChevronRight className="w-6 h-6" />
@@ -450,36 +537,41 @@ export default function Gallery() {
               )}
             </div>
 
-            {/* Donja traka: Brojač, opis i Thumbnail traka */}
-            <div className="max-w-3xl w-full mx-auto space-y-2 sm:space-y-3 z-20">
-              <div className="flex items-center justify-between text-xs text-[#E6D5B8]">
-                <span className="truncate pr-2">{selectedProject.description}</span>
-                <span className="font-semibold px-2 py-0.5 rounded-full bg-white/10 flex-shrink-0">
+            {/* Donja zona: Kompaktni opis sa skrolom i thumbnail traka */}
+            <div className="max-w-3xl w-full mx-auto space-y-2 z-30 flex-shrink-0 pb-1">
+              <div className="flex items-start justify-between gap-3 text-xs bg-black/40 backdrop-blur-md px-3.5 py-2 rounded-xl border border-white/10 max-h-20 sm:max-h-24 overflow-y-auto">
+                <p className="leading-snug text-[#FDFBF5]/90 text-[12px] sm:text-xs font-light break-words flex-1">
+                  {selectedProject.description}
+                </p>
+                <span className="font-medium text-[11px] sm:text-xs px-2.5 py-0.5 rounded-md bg-white/15 text-white border border-white/10 flex-shrink-0 mt-0.5">
                   {currentImageIndex + 1} / {currentImages.length}
                 </span>
               </div>
 
-              {/* Thumbnails */}
-              <div className="flex items-center justify-center gap-1.5 sm:gap-2 overflow-x-auto py-1 sm:py-2">
-                {currentImages.map((img, idx) => (
-                  <button
-                    key={idx}
-                    onClick={() => setCurrentImageIndex(idx)}
-                    className={`relative w-9 h-9 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl overflow-hidden flex-shrink-0 transition-all ${
-                      currentImageIndex === idx
-                        ? "ring-2 ring-[#C86D51] scale-105 opacity-100"
-                        : "opacity-40 hover:opacity-80"
-                    }`}
-                  >
-                    <Image
-                      src={img}
-                      alt="thumbnail"
-                      fill
-                      className="object-cover"
-                    />
-                  </button>
-                ))}
-              </div>
+              {/* Thumbnails traka */}
+              {currentImages.length > 1 && (
+                <div className="flex items-center justify-center gap-1.5 sm:gap-2 overflow-x-auto py-1">
+                  {currentImages.map((img, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setCurrentImageIndex(idx)}
+                      className={`relative w-10 h-10 sm:w-12 sm:h-12 rounded-lg sm:rounded-xl overflow-hidden flex-shrink-0 transition-all ${
+                        currentImageIndex === idx
+                          ? "ring-2 ring-[#C86D51] scale-105 opacity-100"
+                          : "opacity-40 hover:opacity-80"
+                      }`}
+                    >
+                      <Image
+                        src={img}
+                        alt="thumbnail"
+                        fill
+                        sizes="48px"
+                        className="object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
             </div>
           </motion.div>
         )}
