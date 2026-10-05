@@ -1,139 +1,130 @@
 "use client";
 
-import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
+import { motion } from "framer-motion";
 import { Sparkles, ArrowRight, Heart } from "lucide-react";
 
 export default function Hero() {
+  const handleScrollTo = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const navHeight = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
-    <section className="relative pt-28 pb-20 md:pt-36 md:pb-24 overflow-hidden bg-[#FDFBF5]">
-      {/* Suptilna pozadinska toplina */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[850px] h-[550px] bg-[#E6D5B8]/20 rounded-full blur-3xl pointer-events-none" />
+    <section
+      id="hero"
+      className="relative min-h-[92vh] sm:min-h-screen flex items-center justify-center pt-24 sm:pt-28 pb-16 overflow-hidden bg-gradient-to-b from-[#FAF6F0] via-[#FDFBF5] to-[#FDFBF5]"
+    >
+      {/* Dekorativni pozadinski krugovi */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#E6D5B8]/25 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-10 right-10 w-72 h-72 bg-[#C86D51]/10 rounded-full blur-2xl pointer-events-none" />
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-6 items-center">
+      <div className="max-w-7xl mx-auto px-4 sm:px-8 w-full relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           
-          {/* Lijeva tekstualna strana */}
-          <div className="lg:col-span-7 space-y-6 text-center lg:text-left">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6 }}
-              className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E6D5B8]/30 border border-[#C86D51]/20 text-[#C86D51] text-xs font-semibold tracking-wider uppercase"
-            >
-              <Sparkles className="w-3.5 h-3.5" />
-              Ručno kreirane Dekoracije Za Sve Prilike
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 25 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.1 }}
-              className="font-serif text-4xl sm:text-5xl lg:text-6xl text-[#2A2421] font-normal leading-[1.15] tracking-tight"
-            >
-              Pretvaramo vaše posebne trenutke u{" "}
-              <span className="italic text-[#C86D51] font-medium underline decoration-[#E6D5B8] underline-offset-8">
-                nezaboravnu bajku
-              </span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.2 }}
-              className="text-base sm:text-lg text-[#786F6A] max-w-xl mx-auto lg:mx-0 leading-relaxed"
-            >
-              Kreiramo jedinstvene dekoracije za vjenčanja na otvorenom i u svečanim salama, 
-              zaruke, djevojačke večeri, rođendane i posebne jubileje. Od prepoznatljivog 
-              boho šarma do bezvremenske elegancije – svaki foto kutak, luk i cvjetni 
-              detalj osmišljavamo s ljubavlju i prilagođavamo vašoj viziji.
-            </motion.p>
-
-            {/* CTA Dugmad */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.7, delay: 0.3 }}
-              className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-4"
-            >
-              <Link
-                href="#kontakt"
-                className="w-full sm:w-auto px-8 py-4 rounded-full bg-[#C86D51] text-white font-medium text-sm tracking-wider uppercase hover:bg-[#b05c42] transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 group"
-              >
-                Zatražite Ponudu
-                <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-              </Link>
-              <Link
-                href="#galerija"
-                className="w-full sm:w-auto px-8 py-4 rounded-full border border-[#2A2421]/30 text-[#2A2421] font-medium text-sm tracking-wider uppercase hover:border-[#C86D51] hover:text-[#C86D51] transition-all flex items-center justify-center"
-              >
-                Pogledajte Radove
-              </Link>
-            </motion.div>
-
-            {/* Social proof tagovi */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.7, delay: 0.4 }}
-              className="pt-4 flex items-center justify-center lg:justify-start gap-6 text-xs text-[#786F6A]"
-            >
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#7D8C71]" />
-                100% Personalizovano
-              </div>
-              <div className="flex items-center gap-2">
-                <span className="w-2 h-2 rounded-full bg-[#C86D51]" />
-                Na otvorenom & u salama
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Desna slika: Potpuno stopljena u pozadinu bez ikakvog okvira ili vidljivih ivica */}
+          {/* Lijeva strana: Tekst i poziv na akciju */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
+            className="lg:col-span-7 text-center lg:text-left space-y-6"
+          >
+            <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#E6D5B8]/50 border border-[#C86D51]/30 text-[#C86D51] text-xs sm:text-sm font-semibold tracking-wider uppercase">
+              <Sparkles className="w-3.5 h-3.5" />
+              Unikatne dekoracije za vaše najvažnije dane
+            </div>
+
+            <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl text-[#2A2421] leading-[1.15] font-normal">
+              Vaše uspomene pretvaramo u{" "}
+              <span className="italic font-serif text-[#C86D51]">
+                vanvremensku bajku
+              </span>
+            </h1>
+
+            <p className="text-sm sm:text-base md:text-lg text-[#786F6A] max-w-xl mx-auto lg:mx-0 font-light leading-relaxed">
+              Kreiramo personalizovane i autentične postavke za vjenčanja, djevojačke večeri,
+              rođendane i posebne trenutke. Svaki detalj osmišljen je s ljubavlju i stilom.
+            </p>
+
+            <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 pt-2">
+              <button
+                onClick={() => handleScrollTo("kontakt")}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2.5 px-8 py-3.5 rounded-full bg-[#C86D51] hover:bg-[#b55f45] text-white text-xs sm:text-sm uppercase tracking-wider font-semibold transition-all shadow-md hover:shadow-xl hover:scale-105 active:scale-95"
+              >
+                <span>Rezerviši svoj datum</span>
+                <ArrowRight className="w-4 h-4" />
+              </button>
+
+              <button
+                onClick={() => handleScrollTo("galerija")}
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-7 py-3.5 rounded-full bg-[#FAF6F0] hover:bg-[#E6D5B8]/40 border border-[#C86D51]/30 text-[#2A2421] text-xs sm:text-sm uppercase tracking-wider font-semibold transition-all"
+              >
+                Pogledaj galeriju
+              </button>
+            </div>
+
+            {/* Statistika */}
+            <div className="pt-6 border-t border-[#E6D5B8]/60 grid grid-cols-3 gap-4 max-w-md mx-auto lg:mx-0 text-center lg:text-left">
+              <div>
+                <p className="font-serif text-2xl sm:text-3xl text-[#2A2421] font-semibold">100+</p>
+                <p className="text-[11px] sm:text-xs text-[#786F6A]">Uspješnih evenata</p>
+              </div>
+              <div>
+                <p className="font-serif text-2xl sm:text-3xl text-[#2A2421] font-semibold">100%</p>
+                <p className="text-[11px] sm:text-xs text-[#786F6A]">Posvećenost detalju</p>
+              </div>
+              <div>
+                <p className="font-serif text-2xl sm:text-3xl text-[#2A2421] font-semibold">5★</p>
+                <p className="text-[11px] sm:text-xs text-[#786F6A]">Ocjena zadovoljnih musterija</p>
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Desna strana: Čista fotografija bez debelog okvira */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.9, delay: 0.2 }}
+            transition={{ duration: 0.9, delay: 0.2, ease: "easeOut" }}
             className="lg:col-span-5 relative flex justify-center"
           >
-            <div className="relative w-full max-w-lg h-[500px] sm:h-[580px]">
-              
-              {/* 
-                KLJUČNO: WebkitMaskImage stvara mekani ovalni prelaz.
-                Svi rubovi (vrh, dno, lijevo, desno) se postepeno tope u #FDFBF5,
-                tako da dekoracija izgleda kao da je naslikana direktno na pozadini stranice.
-              */}
-              <div
-                className="relative w-full h-full"
-                style={{
-                  WebkitMaskImage:
-                    "radial-gradient(ellipse 80% 85% at 50% 50%, black 50%, transparent 95%)",
-                  maskImage:
-                    "radial-gradient(ellipse 80% 85% at 50% 50%, black 50%, transparent 95%)",
-                }}
-              >
-                <Image
-                  src="/hero-boho.jpg"
-                  alt="Boho vjenčana dekoracija sa pampasom i drvenom foteljom"
-                  fill
-                  sizes="(max-width: 1024px) 100vw, 45vw"
-                  priority
-                  className="object-cover object-center"
-                />
-              </div>
+            <div className="relative w-full max-w-md sm:max-w-lg aspect-[4/5] rounded-3xl sm:rounded-[36px] overflow-hidden shadow-2xl group">
+              <Image
+                src="/sana.jpg"
+                alt="Vintage Charm Boho Dekoracija"
+                fill
+                priority
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 45vw, 40vw"
+                className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
+              />
 
-              {/* Plutajući bedž bez oštrih okvira */}
-              <div className="absolute -bottom-2 left-6 sm:left-2 bg-[#FDFBF5]/90 backdrop-blur-md px-5 py-3.5 rounded-2xl shadow-lg border border-[#E6D5B8]/50 flex items-center gap-3.5">
-                <div className="w-10 h-10 rounded-xl bg-[#C86D51]/10 flex items-center justify-center text-[#C86D51]">
-                  <Heart className="w-5 h-5 fill-[#C86D51]" />
+              {/* Suptilni plutajući bedž na dnu slike */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.6, delay: 0.5 }}
+                className="absolute bottom-5 left-5 right-5 sm:bottom-6 sm:left-6 sm:right-6 bg-[#2A2421]/80 backdrop-blur-md p-3.5 rounded-2xl border border-white/15 shadow-xl flex items-center gap-3.5 text-white"
+              >
+                <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-[#C86D51] flex items-center justify-center text-white flex-shrink-0">
+                  <Heart className="w-4 h-4 sm:w-5 sm:h-5 fill-current" />
                 </div>
                 <div>
-                  <div className="font-serif font-bold text-lg text-[#2A2421]">150+</div>
-                  <div className="text-[11px] text-[#786F6A]">Uspješnih proslava</div>
+                  <p className="text-xs sm:text-sm font-serif font-medium text-[#FDFBF5]">
+                    Prirodna boho estetika
+                  </p>
+                  <p className="text-[10px] sm:text-[11px] text-[#E6D5B8]">
+                    Ručno rađeni detalji i pažljivo birano cvijeće
+                  </p>
                 </div>
-              </div>
-
+              </motion.div>
             </div>
           </motion.div>
 

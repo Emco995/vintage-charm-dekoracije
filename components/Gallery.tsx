@@ -100,6 +100,17 @@ const projectList: GalleryProject[] = [
     imageCount: 5,
   },
   {
+    id: "bridgerton djevojacka",
+    folderName: "bridgerton djevojacka",
+    title: "Bridgerton Bachelorette Theme Party 🌸",
+    category: "djevojacke",
+    categoryLabel: "Djevojačka",
+    aspectClass: "h-44 sm:h-72",
+    description:
+      "Dearest Gentle Reader… Ako i vi sanjate svoje bajkovito, tematsko djevojačko veče – tu smo da svaku vašu ideju pretvorimo u stvarnost.✨",
+    imageCount: 7,
+  },
+  {
     id: "dream-white-wedding",
     folderName: "dream white wedding",
     title: "Dream White Vjenčanje",
@@ -246,12 +257,12 @@ const projectList: GalleryProject[] = [
   {
     id: "zaruke-red",
     folderName: "zaruke red",
-    title: "Red Passion Zaruke",
+    title: "Rekla je DA! ❤️",
     category: "zaruke",
     categoryLabel: "Zaruke",
     aspectClass: "h-56 sm:h-[380px]",
-    description: "Crvene ruže, svjetlost svijeća i nezaboravan trenutak zaruka.",
-    imageCount: 5,
+    description: "Na jezeru Hazna, uz naše prepoznatljivo srce, stvaramo trenutke koji se pamte. Ako planirate iznenađenje, prepustite ga nama. ✨",
+    imageCount: 2,
   },
 ];
 
