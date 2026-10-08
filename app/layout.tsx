@@ -1,91 +1,96 @@
-import type { Metadata, Viewport } from "next";
-import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
+import type { Metadata } from "next";
+import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const cormorant = Cormorant_Garamond({
+const playfair = Playfair_Display({
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  variable: "--font-serif",
+  variable: "--font-playfair",
 });
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
-  variable: "--font-sans",
+  variable: "--font-jakarta",
 });
 
-export const viewport: Viewport = {
-  themeColor: "#FDFBF5",
-  width: "device-width",
-  initialScale: 1,
-};
+// Zamijeni sa svojom finalnom domenom kada je kupiš (npr. https://vintagecharm.ba)
+const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://vintagecharm.ba";
 
 export const metadata: Metadata = {
-  title: "Vintage Charm Dekoracije | Boho & Event Dekoracije",
+  metadataBase: new URL(siteUrl),
+  title: "Vintage Charm Dekoracije | Unikatne Dekoracije za Vjenčanja i Proslave",
   description:
-    "Ekskluzivne dekoracije za vjenčanja, djevojačke večeri, rođendane i posebne proslave. Stvaramo bajkovitu atmosferu prilagođenu vašim željama.",
-  keywords: [
-    "Vintage Charm Dekoracije",
-    "dekoracije vjenčanja",
-    "boho dekoracije",
-    "djevojačka večer dekoracija",
-    "rođendanske dekoracije",
-    "cvjetni oltar",
-    "event dekoracije Bosna i Hercegovina",
-  ],
-  authors: [{ name: "Vintage Charm Dekoracije" }],
-  creator: "Vintage Charm",
-  metadataBase: new URL("https://vintage-charm-dekoracije.vercel.app"),
-  icons: {
-    icon: [
-      { url: "/logo.png", type: "image/png" },
-      { url: "/icon.png", type: "image/png" },
-    ],
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    "Pretvaramo vaše posebne trenutke u vanvremensku bajku. Profesionalne dekoracije za vjenčanja, djevojačke večeri, rođendane i manifestacije.",
+  alternates: {
+    canonical: "/",
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
   },
   openGraph: {
-    title: "Vintage Charm Dekoracije | Boho & Svečane Dekoracije",
-    description:
-      "Unikatne i personalizovane dekoracije za vjenčanja, zaruke, djevojačke večeri i rođendane. Pogledajte naš portfolio.",
-    url: "https://vintage-charm-dekoracije.vercel.app",
-    siteName: "Vintage Charm Dekoracije",
-    locale: "bs_BA",
     type: "website",
+    locale: "bs_BA",
+    url: siteUrl,
+    siteName: "Vintage Charm Dekoracije",
+    title: "Vintage Charm Dekoracije | Unikatne Dekoracije za Vaše Događaje",
+    description:
+      "Ručno birani boho i moderni detalji, cvjetni aranžmani i scenografija za vjenčanja i posebne trenutke.",
     images: [
       {
-        url: "https://vintage-charm-dekoracije.vercel.app/logo.png",
-        width: 800,
+        url: "/sana.jpg",
+        width: 1200,
         height: 800,
-        alt: "Vintage Charm Dekoracije Logo",
+        alt: "Vintage Charm Boho Dekoracije",
       },
     ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Vintage Charm Dekoracije",
-    description:
-      "Ekskluzivne dekoracije za vjenčanja, djevojačke večeri i rođendane.",
-    images: ["https://vintage-charm-dekoracije.vercel.app/logo.png"],
+    description: "Unikatne dekoracije za vjenčanja i proslave.",
+    images: ["/sana.jpg"],
+  },
+  icons: {
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
   },
 };
 
 export default function RootLayout({
   children,
-}: Readonly<{
+}: {
   children: React.ReactNode;
-}>) {
-  const jsonLd = {
+}) {
+  // Schema.org LocalBusiness (Event Planning & Decor) struktuirani podaci
+  const structuredData = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     name: "Vintage Charm Dekoracije",
-    image: "https://vintage-charm-dekoracije.vercel.app/logo.png",
-    telephone: "+38762317694",
-    url: "https://vintage-charm-dekoracije.vercel.app",
+    image: `${siteUrl}/sana.jpg`,
+    logo: `${siteUrl}/logo.png`,
+    url: siteUrl,
+    telephone: "+387600000000", // Ubaci tačan broj telefona
     priceRange: "$$",
     description:
-      "Unikatne dekoracije za vjenčanja, djevojačke večeri, rođendane i intimne proslave u boho stilu.",
-    sameAs: ["https://www.instagram.com/vintage__charm_/"],
+      "Agencija za profesionalno dekorisanje vjenčanja, djevojačkih večeri, rođendana i posebnih manifestacija.",
+    address: {
+      "@type": "PostalAddress",
+      addressLocality: "Gradčac", // Ili tačan grad gdje posluje
+      addressCountry: "BA",
+    },
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: "44.8783",
+      longitude: "18.4286",
+    },
     openingHoursSpecification: [
       {
         "@type": "OpeningHoursSpecification",
@@ -99,28 +104,22 @@ export default function RootLayout({
           "Sunday",
         ],
         opens: "08:00",
-        closes: "21:00",
+        closes: "20:00",
       },
     ],
   };
 
   return (
-    <html lang="bs" className={`${cormorant.variable} ${jakarta.variable} scroll-smooth`}>
+    <html lang="bs" className="scroll-smooth">
       <head>
-        <title>Vintage Charm Dekoracije | Boho & Event Dekoracije</title>
-        <meta name="title" content="Vintage Charm Dekoracije | Boho & Event Dekoracije" />
-        <meta property="og:title" content="Vintage Charm Dekoracije | Boho & Event Dekoracije" />
-        <meta property="og:image" content="https://vintage-charm-dekoracije.vercel.app/logo.png" />
-        <meta property="og:image:width" content="800" />
-        <meta property="og:image:height" content="800" />
-        <link rel="icon" type="image/png" href="/logo.png" />
-        <link rel="apple-touch-icon" href="/logo.png" />
         <script
           type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
         />
       </head>
-      <body className="bg-[#FDFBF5] text-[#2A2421] antialiased">
+      <body
+        className={`${playfair.variable} ${jakarta.variable} font-sans bg-[#FDFBF5] text-[#2A2421] antialiased`}
+      >
         {children}
       </body>
     </html>

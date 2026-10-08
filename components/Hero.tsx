@@ -24,14 +24,12 @@ export default function Hero() {
       id="hero"
       className="relative min-h-[92vh] sm:min-h-screen flex items-center justify-center pt-24 sm:pt-28 pb-16 overflow-hidden bg-gradient-to-b from-[#FAF6F0] via-[#FDFBF5] to-[#FDFBF5]"
     >
-      {/* Dekorativni pozadinski krugovi */}
       <div className="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-[#E6D5B8]/25 rounded-full blur-3xl pointer-events-none" />
       <div className="absolute bottom-10 right-10 w-72 h-72 bg-[#C86D51]/10 rounded-full blur-2xl pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-8 w-full relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-8 items-center">
           
-          {/* Lijeva strana: Tekst i poziv na akciju */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -72,7 +70,6 @@ export default function Hero() {
               </button>
             </div>
 
-            {/* Statistika */}
             <div className="pt-6 border-t border-[#E6D5B8]/60 grid grid-cols-3 gap-4 max-w-md mx-auto lg:mx-0 text-center lg:text-left">
               <div>
                 <p className="font-serif text-2xl sm:text-3xl text-[#2A2421] font-semibold">100+</p>
@@ -84,12 +81,11 @@ export default function Hero() {
               </div>
               <div>
                 <p className="font-serif text-2xl sm:text-3xl text-[#2A2421] font-semibold">5★</p>
-                <p className="text-[11px] sm:text-xs text-[#786F6A]">Ocjena zadovoljnih musterija</p>
+                <p className="text-[11px] sm:text-xs text-[#786F6A]">Ocjena mladenaca</p>
               </div>
             </div>
           </motion.div>
 
-          {/* Desna strana: Čista fotografija bez debelog okvira */}
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -106,7 +102,6 @@ export default function Hero() {
                 className="object-cover group-hover:scale-105 transition-transform duration-700 ease-out"
               />
 
-              {/* Suptilni plutajući bedž na dnu slike */}
               <motion.div
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
