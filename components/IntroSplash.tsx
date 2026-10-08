@@ -12,9 +12,18 @@ export default function IntroSplash({ onComplete }: IntroSplashProps) {
   const [showSplash, setShowSplash] = useState(true);
 
   useEffect(() => {
-    // Nakon 3 sekunde pokreće se kompletan exit ciklus
+    // 1. Spriječi browser da pamti prethodnu poziciju skrola i odmah skoči na vrh
+    if (typeof window !== "undefined") {
+      if ("scrollRestoration" in window.history) {
+        window.history.scrollRestoration = "manual";
+      }
+      window.scrollTo(0, 0);
+    }
+
+    // 2. Nakon 3.2 sekunde pokreće se kompletan exit ciklus i ponovo osigurava vrh
     const timer = setTimeout(() => {
       setShowSplash(false);
+      window.scrollTo(0, 0);
       if (onComplete) onComplete();
     }, 3200);
 
