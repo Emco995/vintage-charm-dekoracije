@@ -5,14 +5,17 @@ import "./globals.css";
 const playfair = Playfair_Display({
   subsets: ["latin"],
   variable: "--font-playfair",
+  display: "swap",
+  preload: false,
 });
 
 const jakarta = Plus_Jakarta_Sans({
   subsets: ["latin"],
   variable: "--font-jakarta",
+  display: "swap",
+  preload: false,
 });
 
-// Zamijeni sa svojom finalnom domenom kada je kupiš (npr. https://vintagecharm.ba)
 const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://vintagecharm.ba";
 
 export const metadata: Metadata = {
@@ -69,7 +72,6 @@ export default function RootLayout({
 }: {
   children: React.ReactNode;
 }) {
-  // Schema.org LocalBusiness (Event Planning & Decor) struktuirani podaci
   const structuredData = {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
@@ -77,13 +79,13 @@ export default function RootLayout({
     image: `${siteUrl}/sana.jpg`,
     logo: `${siteUrl}/logo.png`,
     url: siteUrl,
-    telephone: "+387600000000", // Ubaci tačan broj telefona
+    telephone: "+387600000000",
     priceRange: "$$",
     description:
       "Agencija za profesionalno dekorisanje vjenčanja, djevojačkih večeri, rođendana i posebnih manifestacija.",
     address: {
       "@type": "PostalAddress",
-      addressLocality: "Gradčac", // Ili tačan grad gdje posluje
+      addressLocality: "Gradačac",
       addressCountry: "BA",
     },
     geo: {
