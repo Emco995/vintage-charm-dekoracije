@@ -55,7 +55,7 @@ const projectList: GalleryProject[] = [
     aspectClass: "h-48 sm:h-80",
     description:
       "Vajb koji nas je na trenutak odveo do Italije — zelenilo, kamen, grožđe i kale kao glavni detalji ove dekoracije. 🍇🌿Volimo kada upravo mali detalji naprave najveću razliku.",
-    imageCount: 6,
+    imageCount: 5,
   },
   {
     id: "18i-rodjendan",
@@ -65,7 +65,7 @@ const projectList: GalleryProject[] = [
     categoryLabel: "Rođendan",
     aspectClass: "h-48 sm:h-80",
     description: "Organski balonski lukovi, neon brojevi i chic stolići za proslavu.",
-    imageCount: 6,
+    imageCount: 3,
   },
   {
     id: "boho-vjencanje",
@@ -86,7 +86,7 @@ const projectList: GalleryProject[] = [
     categoryLabel: "Vjenčanje",
     aspectClass: "h-60 sm:h-[390px]",
     description: "Bijela elegancija koja govori sama za sebe. ✨",
-    imageCount: 5,
+    imageCount: 3,
   },
   {
     id: "capry-djevojacka",
@@ -181,7 +181,7 @@ const projectList: GalleryProject[] = [
     categoryLabel: "Vjenčanje",
     aspectClass: "h-64 sm:h-[420px]",
     description: "Bujni eukaliptus, zelene girlande i nježne puder-roze ruže.",
-    imageCount: 9,
+    imageCount: 8,
   },
   {
     id: "ladybug-birthday",
@@ -241,7 +241,7 @@ const projectList: GalleryProject[] = [
     categoryLabel: "Rođendan",
     aspectClass: "h-48 sm:h-72",
     description: "Hello, 18! 🖤 Tamnije boje, dekoracija koja je ostavila baš snažan utisak. ✨",
-    imageCount: 5,
+    imageCount: 2,
   },
   {
     id: "medo-rodjendan",
