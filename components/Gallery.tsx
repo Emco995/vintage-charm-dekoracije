@@ -317,8 +317,6 @@ function AutoPlayVideo({ src, isUnmuted }: AutoPlayVideoProps) {
       muted={!isUnmuted}
       loop
       playsInline
-      // @ts-expect-error - neophodno za podršku na starijem iOS Safariju
-      webkit-playsinline="true"
       preload="metadata"
       className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
     >
