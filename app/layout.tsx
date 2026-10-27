@@ -51,7 +51,7 @@ export const metadata: Metadata = {
         url: "https://vintage-charm-dekoracije.vercel.app/og-image.jpg",
         secureUrl: "https://vintage-charm-dekoracije.vercel.app/og-image.jpg",
         width: 1200,
-        height: 630,
+        height: 700,
         type: "image/jpeg",
         alt: "Vintage Charm Dekoracije Logo",
       },
