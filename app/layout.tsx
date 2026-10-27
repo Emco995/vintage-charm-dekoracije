@@ -48,9 +48,11 @@ export const metadata: Metadata = {
     siteName: "Vintage Charm Dekoracije",
     images: [
       {
-        url: "/og-image.jpg",
+        url: "https://vintage-charm-dekoracije.vercel.app/og-image.jpg",
+        secureUrl: "https://vintage-charm-dekoracije.vercel.app/og-image.jpg",
         width: 1200,
         height: 630,
+        type: "image/jpeg",
         alt: "Vintage Charm Dekoracije Logo",
       },
     ],
@@ -62,7 +64,7 @@ export const metadata: Metadata = {
     title: "Vintage Charm | Dekoracije za sve Vaše posebne trenutke",
     description:
       "Unikatne dekoracije za vjenčanja, djevojačke večeri, rođendane i posebne trenutke.",
-    images: ["/og-image.jpg"],
+    images: ["https://vintage-charm-dekoracije.vercel.app/og-image.jpg"],
   },
   icons: {
     icon: "/favicon.ico",
