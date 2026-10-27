@@ -1,127 +1,82 @@
-import type { Metadata } from "next";
-import { Playfair_Display, Plus_Jakarta_Sans } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Cormorant_Garamond, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-const playfair = Playfair_Display({
+const serifFont = Cormorant_Garamond({
   subsets: ["latin"],
-  variable: "--font-playfair",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-serif",
   display: "swap",
-  preload: false,
 });
 
-const jakarta = Plus_Jakarta_Sans({
+const sansFont = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  variable: "--font-jakarta",
+  weight: ["300", "400", "500", "600", "700"],
+  variable: "--font-sans",
   display: "swap",
-  preload: false,
 });
 
-const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || "https://vintagecharm.ba";
+export const viewport: Viewport = {
+  themeColor: "#FDFBF5",
+  width: "device-width",
+  initialScale: 1,
+};
 
 export const metadata: Metadata = {
-  metadataBase: new URL(siteUrl),
-  title: "Vintage Charm Dekoracije | Unikatne Dekoracije za Vjenčanja i Proslave",
+  metadataBase: new URL("https://vintage-charm-dekoracije.vercel.app"),
+  title: "Vintage Charm | Dekoracije za sve Vaše posebne trenutke",
   description:
-    "Pretvaramo vaše posebne trenutke u vanvremensku bajku. Profesionalne dekoracije za vjenčanja, djevojačke večeri, rođendane i manifestacije.",
-  alternates: {
-    canonical: "/",
-  },
-  robots: {
-    index: true,
-    follow: true,
-    googleBot: {
-      index: true,
-      follow: true,
-      "max-image-preview": "large",
-      "max-snippet": -1,
-      "max-video-preview": -1,
-    },
-  },
+    "Unikatne dekoracije za vjenčanja, djevojačke večeri, rođendane i privatne proslave. Svaki detalj osmišljen s ljubavlju.",
+  keywords: [
+    "Vintage Charm",
+    "dekoracije",
+    "vjenčanja",
+    "djevojačke večeri",
+    "rođendani",
+    "zaruke",
+    "baloni",
+    "cvjetni aranžmani",
+    "dekoracije za proslave",
+  ],
+  authors: [{ name: "Vintage Charm" }],
+  creator: "Vintage Charm",
   openGraph: {
-    type: "website",
-    locale: "bs_BA",
-    url: siteUrl,
-    siteName: "Vintage Charm Dekoracije",
-    title: "Vintage Charm Dekoracije | Unikatne Dekoracije za Vaše Događaje",
+    title: "Vintage Charm | Dekoracije za sve Vaše posebne trenutke",
     description:
-      "Ručno birani boho i moderni detalji, cvjetni aranžmani i scenografija za vjenčanja i posebne trenutke.",
+      "Unikatne dekoracije za vjenčanja, djevojačke večeri, rođendane i privatne proslave. Pogledajte naš portfolio radova.",
+    url: "https://vintage-charm-dekoracije.vercel.app",
+    siteName: "Vintage Charm Dekoracije",
     images: [
       {
-        url: "/sana.jpg",
+        url: "/og-image.jpg",
         width: 1200,
-        height: 800,
-        alt: "Vintage Charm Boho Dekoracije",
+        height: 630,
+        alt: "Vintage Charm Dekoracije Logo",
       },
     ],
+    locale: "bs_BA",
+    type: "website",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Vintage Charm Dekoracije",
-    description: "Unikatne dekoracije za vjenčanja i proslave.",
-    images: ["/sana.jpg"],
+    title: "Vintage Charm | Dekoracije za sve Vaše posebne trenutke",
+    description:
+      "Unikatne dekoracije za vjenčanja, djevojačke večeri, rođendane i posebne trenutke.",
+    images: ["/og-image.jpg"],
   },
   icons: {
-    icon: "/logo.png",
-    shortcut: "/logo.png",
-    apple: "/logo.png",
+    icon: "/favicon.ico",
   },
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    name: "Vintage Charm Dekoracije",
-    image: `${siteUrl}/sana.jpg`,
-    logo: `${siteUrl}/logo.png`,
-    url: siteUrl,
-    telephone: "+387600000000",
-    priceRange: "$$",
-    description:
-      "Agencija za profesionalno dekorisanje vjenčanja, djevojačkih večeri, rođendana i posebnih manifestacija.",
-    address: {
-      "@type": "PostalAddress",
-      addressLocality: "Gradačac",
-      addressCountry: "BA",
-    },
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: "44.8783",
-      longitude: "18.4286",
-    },
-    openingHoursSpecification: [
-      {
-        "@type": "OpeningHoursSpecification",
-        dayOfWeek: [
-          "Monday",
-          "Tuesday",
-          "Wednesday",
-          "Thursday",
-          "Friday",
-          "Saturday",
-          "Sunday",
-        ],
-        opens: "08:00",
-        closes: "20:00",
-      },
-    ],
-  };
-
+}>) {
   return (
-    <html lang="bs" className="scroll-smooth">
-      <head>
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
-        />
-      </head>
-      <body
-        className={`${playfair.variable} ${jakarta.variable} font-sans bg-[#FDFBF5] text-[#2A2421] antialiased`}
-      >
+    <html lang="bs" className={`${serifFont.variable} ${sansFont.variable} scroll-smooth`}>
+      <body className="min-h-screen bg-[#FDFBF5] text-[#2A2421] font-sans antialiased selection:bg-[#C86D51] selection:text-white">
         {children}
       </body>
     </html>
