@@ -35,7 +35,6 @@ interface HighlightVideo {
   aspectClass: string;
 }
 
-// Ovdje unesi svoje tačne nazive, tagove i formate za 5 videa
 const highlightVideos: HighlightVideo[] = [
   {
     id: "v1",
@@ -265,6 +264,69 @@ const projectList: GalleryProject[] = [
   },
 ];
 
+interface AutoPlayVideoProps {
+  src: string;
+  isUnmuted: boolean;
+}
+
+function AutoPlayVideo({ src, isUnmuted }: AutoPlayVideoProps) {
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+
+  useEffect(() => {
+    if (videoRef.current) {
+      videoRef.current.muted = !isUnmuted;
+    }
+  }, [isUnmuted]);
+
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video) return;
+
+    video.muted = !isUnmuted;
+    video.defaultMuted = true;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+              playPromise.catch(() => {});
+            }
+          } else {
+            video.pause();
+          }
+        });
+      },
+      {
+        threshold: 0.25,
+      }
+    );
+
+    observer.observe(video);
+
+    return () => {
+      observer.disconnect();
+    };
+  }, [isUnmuted]);
+
+  return (
+    <video
+      ref={videoRef}
+      autoPlay
+      muted={!isUnmuted}
+      loop
+      playsInline
+      // @ts-expect-error - neophodno za podršku na starijem iOS Safariju
+      webkit-playsinline="true"
+      preload="metadata"
+      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+    >
+      <source src={src} type="video/mp4" />
+    </video>
+  );
+}
+
 const INITIAL_VISIBLE_COUNT = 6;
 
 export default function Gallery() {
@@ -398,16 +460,7 @@ export default function Gallery() {
                   className="break-inside-avoid group relative rounded-xl sm:rounded-3xl overflow-hidden bg-[#1E1B19] shadow-sm hover:shadow-xl transition-all duration-300 mb-2.5 sm:mb-6"
                 >
                   <div className={`relative w-full ${vid.aspectClass} overflow-hidden`}>
-                    <video
-                      autoPlay
-                      muted={!isUnmuted}
-                      loop
-                      playsInline
-                      preload="metadata"
-                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
-                    >
-                      <source src={vid.src} type="video/mp4" />
-                    </video>
+                    <AutoPlayVideo src={vid.src} isUnmuted={isUnmuted} />
 
                     <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/85 opacity-70 group-hover:opacity-90 transition-opacity duration-300 pointer-events-none" />
 
@@ -666,3 +719,6 @@ export default function Gallery() {
     </section>
   );
 }
+
+
+
