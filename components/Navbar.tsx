@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
 
 interface NavItem {
@@ -20,12 +20,22 @@ const navItems: NavItem[] = [
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const scrollTo = (id: string) => {
     setIsOpen(false);
     const element = document.getElementById(id);
     if (element) {
-      const navHeight = 80;
+      const navHeight = scrolled ? 72 : 80;
       const elementPosition = element.getBoundingClientRect().top;
       const offsetPosition = elementPosition + window.pageYOffset - navHeight;
       window.scrollTo({
@@ -36,16 +46,29 @@ export default function Navbar() {
   };
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 bg-[#FDFBF5]/95 backdrop-blur-md border-b border-[#E6D5B8]/40 shadow-sm">
+    <header
+      className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ease-in-out ${
+        scrolled
+          ? "bg-[#FDFBF5]/85 backdrop-blur-md border-b border-[#E6D5B8]/50 shadow-sm"
+          : "bg-transparent border-b border-transparent shadow-none"
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-20">
-          
+        <div
+          className={`flex items-center justify-between transition-all duration-300 ${
+            scrolled ? "h-18" : "h-22 sm:h-24"
+          }`}
+        >
           {/* Logo & Naziv */}
           <button
             onClick={() => scrollTo("hero")}
             className="flex items-center gap-3 text-left focus:outline-none cursor-pointer"
           >
-            <div className="relative w-12 h-12 overflow-hidden rounded-full border border-[#C86D51]/30">
+            <div
+              className={`relative overflow-hidden rounded-full border border-[#C86D51]/30 transition-all duration-300 ${
+                scrolled ? "w-10 h-10 sm:w-11 sm:h-11" : "w-11 h-11 sm:w-12 sm:h-12"
+              }`}
+            >
               <Image
                 src="/logo.png"
                 alt="Vintage Charm Logo"
@@ -112,7 +135,7 @@ export default function Navbar() {
 
       {/* Mobilni meni dropdown - Centrirane stavke */}
       {isOpen && (
-        <div className="md:hidden bg-[#FDFBF5] border-b border-[#E6D5B8]/60 px-6 pt-4 pb-8 shadow-lg animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="md:hidden bg-[#FDFBF5]/95 backdrop-blur-md border-b border-[#E6D5B8]/60 px-6 pt-4 pb-8 shadow-lg animate-in fade-in slide-in-from-top-2 duration-200">
           <nav className="flex flex-col items-center gap-3 text-center">
             {navItems.map((item) => (
               <button
