@@ -1,113 +1,106 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import Link from "next/link";
+import { useState } from "react";
+import Image from "next/image";
 
 interface NavItem {
   label: string;
-  href: string;
+  id: string;
 }
 
 const navItems: NavItem[] = [
-  { label: "Početna", href: "#hero" },
-  { label: "O nama", href: "#about" },
-  { label: "Usluge", href: "#services" },
-  { label: "Galerija", href: "#gallery" },
-  { label: "Kontakt", href: "#contact" },
+  { label: "Početna", id: "hero" },
+  { label: "O nama", id: "about" },
+  { label: "Galerija", id: "gallery" },
+  { label: "Usluge", id: "services" },
+  { label: "Utisci", id: "testimonials" },
+  { label: "FAQ", id: "faq" },
+  { label: "Kontakt", id: "contact" },
 ];
 
 export default function Navbar() {
   const [isOpen, setIsOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
 
-  // Praćenje skrola za dodavanje pozadine i sjene na navbar
-  useEffect(() => {
-    const handleScroll = () => {
-      if (window.scrollY > 20) {
-        setScrolled(true);
-      } else {
-        setScrolled(false);
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Blokiranje skrolovanja stranice dok je mobilni meni otvoren
-  useEffect(() => {
-    if (typeof document !== "undefined") {
-      if (isOpen) {
-        document.body.style.overflow = "hidden";
-      } else {
-        document.body.style.overflow = "unset";
-      }
+  const scrollTo = (id: string) => {
+    setIsOpen(false);
+    const element = document.getElementById(id);
+    if (element) {
+      const navHeight = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: "smooth",
+      });
     }
-  }, [isOpen]);
-
-  const closeMenu = () => setIsOpen(false);
+  };
 
   return (
-    <header
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? "bg-[#FDFBF5]/90 backdrop-blur-md shadow-sm py-3"
-          : "bg-transparent py-5"
-      }`}
-    >
+    <header className="fixed top-0 left-0 right-0 z-40 bg-[#FDFBF5]/95 backdrop-blur-md border-b border-[#E6D5B8]/40 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between">
-          {/* Logo / Brend */}
-          <Link
-            href="/"
-            onClick={closeMenu}
-            className="text-2xl font-serif font-semibold tracking-wide text-[#2A2421] hover:text-[#C86D51] transition-colors"
+        <div className="flex items-center justify-between h-20">
+          
+          {/* Logo & Naziv */}
+          <button
+            onClick={() => scrollTo("hero")}
+            className="flex items-center gap-3 text-left focus:outline-none cursor-pointer"
           >
-            Vintage Charm
-          </Link>
+            <div className="relative w-12 h-12 overflow-hidden rounded-full border border-[#C86D51]/30">
+              <Image
+                src="/logo.png"
+                alt="Vintage Charm Logo"
+                fill
+                sizes="48px"
+                priority
+                className="object-cover"
+              />
+            </div>
+            <div className="flex flex-col">
+              <span className="font-serif text-xl sm:text-2xl font-semibold tracking-wide text-[#2A2421]">
+                Vintage Charm
+              </span>
+              <span className="text-[10px] sm:text-xs tracking-widest uppercase text-[#2A2421]/60 font-sans">
+                Dekoracije
+              </span>
+            </div>
+          </button>
 
           {/* Desktop navigacija */}
-          <nav className="hidden md:flex items-center gap-8">
+          <nav className="hidden md:flex items-center gap-7">
             {navItems.map((item) => (
-              <a
-                key={item.href}
-                href={item.href}
-                className="text-sm font-medium text-[#2A2421]/80 hover:text-[#C86D51] transition-colors"
+              <button
+                key={item.id}
+                onClick={() => scrollTo(item.id)}
+                className="text-sm font-medium text-[#2A2421]/80 hover:text-[#C86D51] transition-colors cursor-pointer"
               >
                 {item.label}
-              </a>
+              </button>
             ))}
-            <a
-              href="#contact"
-              className="px-5 py-2.5 rounded-full bg-[#C86D51] text-white text-sm font-medium hover:bg-[#b05e45] transition-colors shadow-sm"
+            <button
+              onClick={() => scrollTo("contact")}
+              className="px-5 py-2.5 rounded-full bg-[#C86D51] text-white text-sm font-medium hover:bg-[#b05e45] transition-colors shadow-sm cursor-pointer"
             >
-              Rezervišite termin
-            </a>
+              Kontaktirajte nas
+            </button>
           </nav>
 
-          {/* Mobilno animirano Hamburger / X dugme */}
+          {/* Mobilno dugme sa animacijom Hamburger -> X */}
           <button
             type="button"
             onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden relative w-10 h-10 flex flex-col items-center justify-center gap-1.5 focus:outline-none z-50"
+            className="md:hidden relative w-10 h-10 flex flex-col items-center justify-center gap-1.5 focus:outline-none z-50 cursor-pointer"
             aria-label={isOpen ? "Zatvori meni" : "Otvori meni"}
-            aria-expanded={isOpen}
           >
-            {/* Gornja linija */}
             <span
               className={`h-0.5 w-6 bg-[#2A2421] rounded-full transition-all duration-300 ease-in-out ${
                 isOpen ? "rotate-45 translate-y-2" : ""
               }`}
             />
-
-            {/* Srednja linija */}
             <span
               className={`h-0.5 w-6 bg-[#2A2421] rounded-full transition-all duration-300 ease-in-out ${
                 isOpen ? "opacity-0 -translate-x-2" : "opacity-100"
               }`}
             />
-
-            {/* Donja linija */}
             <span
               className={`h-0.5 w-6 bg-[#2A2421] rounded-full transition-all duration-300 ease-in-out ${
                 isOpen ? "-rotate-45 -translate-y-2" : ""
@@ -117,45 +110,28 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Mobilni Meni Overlay */}
-      <div
-        className={`fixed inset-0 top-0 left-0 w-full h-screen bg-[#FDFBF5] flex flex-col justify-center items-center px-6 transition-all duration-300 ease-in-out md:hidden ${
-          isOpen
-            ? "opacity-100 pointer-events-auto visible"
-            : "opacity-0 pointer-events-none invisible"
-        }`}
-        style={{ zIndex: 40 }}
-      >
-        <nav className="flex flex-col items-center gap-6 text-center">
-          {navItems.map((item, idx) => (
-            <a
-              key={item.href}
-              href={item.href}
-              onClick={closeMenu}
-              className={`text-2xl font-serif text-[#2A2421] hover:text-[#C86D51] transition-all transform duration-300 ${
-                isOpen
-                  ? "translate-y-0 opacity-100"
-                  : "translate-y-4 opacity-0"
-              }`}
-              style={{ transitionDelay: `${isOpen ? idx * 50 + 100 : 0}ms` }}
+      {/* Mobilni meni dropdown - Centrirane stavke */}
+      {isOpen && (
+        <div className="md:hidden bg-[#FDFBF5] border-b border-[#E6D5B8]/60 px-6 pt-4 pb-8 shadow-lg animate-in fade-in slide-in-from-top-2 duration-200">
+          <nav className="flex flex-col items-center gap-3 text-center">
+            {navItems.map((item) => (
+              <button
+                key={item.id}
+                onClick={() => scrollTo(item.id)}
+                className="w-full text-center text-lg font-serif text-[#2A2421] hover:text-[#C86D51] py-2 px-4 rounded-md hover:bg-[#E6D5B8]/20 transition-colors cursor-pointer"
+              >
+                {item.label}
+              </button>
+            ))}
+            <button
+              onClick={() => scrollTo("contact")}
+              className="mt-3 max-w-xs w-full py-3 rounded-full bg-[#C86D51] text-white text-sm font-medium hover:bg-[#b05e45] transition-colors shadow-sm cursor-pointer mx-auto"
             >
-              {item.label}
-            </a>
-          ))}
-          <a
-            href="#contact"
-            onClick={closeMenu}
-            className={`mt-4 px-8 py-3 rounded-full bg-[#C86D51] text-white text-base font-medium shadow-md transition-all duration-300 ${
-              isOpen
-                ? "translate-y-0 opacity-100"
-                : "translate-y-4 opacity-0"
-            }`}
-            style={{ transitionDelay: `${isOpen ? 350 : 0}ms` }}
-          >
-            Rezervišite termin
-          </a>
-        </nav>
-      </div>
+              Kontaktirajte nas
+            </button>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }
