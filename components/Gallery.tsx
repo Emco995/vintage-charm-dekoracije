@@ -403,13 +403,16 @@ export default function Gallery() {
                 >
                   <div className={`relative w-full ${vid.aspectClass} overflow-hidden`}>
                     <video
-                      src={vid.src}
-                      autoPlay
-                      muted={!isUnmuted}
-                      loop
-                      playsInline
-                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
-                    />
+  autoPlay
+  muted={!isUnmuted}
+  loop
+  playsInline
+  preload="metadata"
+  className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+>
+  <source src={vid.src} type="video/mp4" />
+  Vaš pretraživač ne podržava video prikaz.
+</video>
 
                     {/* Gradient sloj */}
                     <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/85 opacity-70 group-hover:opacity-90 transition-opacity duration-300 pointer-events-none" />
