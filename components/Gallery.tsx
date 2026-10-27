@@ -272,8 +272,6 @@ export default function Gallery() {
   const [showAll, setShowAll] = useState(false);
   const [selectedProject, setSelectedProject] = useState<GalleryProject | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-  // Stanje zvuka za video kartice
   const [unmutedVideoId, setUnmutedVideoId] = useState<string | null>(null);
 
   const touchStartX = useRef<number | null>(null);
@@ -376,7 +374,6 @@ export default function Gallery() {
           </p>
         </div>
 
-       
         {/* 1. VIDEO SEKCIJA U UNSPLASH / PINTEREST STILU (2 kolone na mobitelu) */}
         <div className="mt-8 sm:mt-14 mb-12 sm:mb-16">
           <div className="flex items-center justify-between mb-4 sm:mb-6 px-1">
@@ -391,7 +388,6 @@ export default function Gallery() {
             </span>
           </div>
 
-          {/* 2 kolone na mobitelu, 3 kolone na većim ekranima */}
           <div className="columns-2 md:columns-3 gap-2.5 sm:gap-6 space-y-2.5 sm:space-y-6">
             {highlightVideos.map((vid) => {
               const isUnmuted = unmutedVideoId === vid.id;
@@ -403,21 +399,18 @@ export default function Gallery() {
                 >
                   <div className={`relative w-full ${vid.aspectClass} overflow-hidden`}>
                     <video
-  autoPlay
-  muted={!isUnmuted}
-  loop
-  playsInline
-  preload="metadata"
-  className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
->
-  <source src={vid.src} type="video/mp4" />
-  Vaš pretraživač ne podržava video prikaz.
-</video>
+                      autoPlay
+                      muted={!isUnmuted}
+                      loop
+                      playsInline
+                      preload="metadata"
+                      className="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500 ease-out"
+                    >
+                      <source src={vid.src} type="video/mp4" />
+                    </video>
 
-                    {/* Gradient sloj */}
                     <div className="absolute inset-0 bg-gradient-to-b from-black/40 via-transparent to-black/85 opacity-70 group-hover:opacity-90 transition-opacity duration-300 pointer-events-none" />
 
-                    {/* Gornji dio: Tag i Mute dugme */}
                     <div className="absolute top-2 inset-x-2 sm:top-3.5 sm:inset-x-3.5 flex items-center justify-between z-10">
                       <span className="text-[8px] sm:text-[11px] uppercase tracking-wider text-[#FDFBF5] font-medium bg-black/50 backdrop-blur-md px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-full border border-white/15 truncate max-w-[70%]">
                         {vid.tag}
@@ -436,7 +429,6 @@ export default function Gallery() {
                       </button>
                     </div>
 
-                    {/* Donji dio: Naziv i oznaka */}
                     <div className="absolute bottom-2 inset-x-2 sm:bottom-3.5 sm:inset-x-3.5 z-10 text-white">
                       <h4 className="font-serif text-xs sm:text-base font-normal tracking-wide text-white leading-tight drop-shadow-sm line-clamp-2">
                         {vid.title}
@@ -505,13 +497,11 @@ export default function Gallery() {
                     className="object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
                   />
 
-                  {/* Bedž: Broj slika */}
                   <div className="absolute top-2.5 right-2.5 sm:top-4 sm:right-4 bg-black/60 backdrop-blur-md text-white text-[10px] sm:text-xs font-medium px-2 py-0.5 sm:px-3 sm:py-1.5 rounded-full flex items-center gap-1 border border-white/20">
                     <Layers className="w-3 h-3 sm:w-3.5 sm:h-3.5" />
                     <span>{totalImages}</span>
                   </div>
 
-                  {/* Desktop Hover Overlay */}
                   <div className="hidden sm:flex absolute inset-0 bg-gradient-to-t from-[#2A2421]/90 via-[#2A2421]/25 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-col justify-end p-6 text-white">
                     <span className="text-[11px] uppercase tracking-wider text-[#E6D5B8] font-semibold">
                       {proj.categoryLabel}
@@ -528,7 +518,6 @@ export default function Gallery() {
                   </div>
                 </div>
 
-                {/* Mobilni naslov */}
                 <div className="p-2 sm:hidden bg-[#FDFBF5] border-t border-[#E6D5B8]/30">
                   <p className="text-[9px] uppercase tracking-wider text-[#C86D51] font-semibold truncate">
                     {proj.categoryLabel}
@@ -575,7 +564,6 @@ export default function Gallery() {
             onTouchStart={handleTouchStart}
             onTouchEnd={handleTouchEnd}
           >
-            {/* Gornja traka: Naslov i Dugme Zatvori */}
             <div className="flex items-center justify-between z-30 max-w-6xl w-full mx-auto flex-shrink-0 py-1">
               <div className="pr-4 truncate">
                 <span className="text-[10px] sm:text-xs text-[#E6D5B8] uppercase tracking-wider font-medium">
@@ -594,7 +582,6 @@ export default function Gallery() {
               </button>
             </div>
 
-            {/* Središnji prikaz slike */}
             <div className="relative flex-1 min-h-0 w-full max-w-5xl mx-auto flex items-center justify-center my-1 sm:my-2">
               {currentImages.length > 1 && (
                 <button
@@ -639,7 +626,6 @@ export default function Gallery() {
               )}
             </div>
 
-            {/* Donja zona: Opis i thumbnails */}
             <div className="max-w-3xl w-full mx-auto space-y-2 z-30 flex-shrink-0 pb-1">
               <div className="flex items-start justify-between gap-3 text-xs bg-black/40 backdrop-blur-md px-3.5 py-2 rounded-xl border border-white/10 max-h-20 sm:max-h-24 overflow-y-auto">
                 <p className="leading-snug text-[#FDFBF5]/90 text-[12px] sm:text-xs font-light break-words flex-1">
